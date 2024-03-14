@@ -39,10 +39,17 @@
     }
 
     export async function getUserByID(id) {
-        const [rows] = await pool.query(`SELECT * FROM users WHERE email = ?`, 
-        [email]
+        const [rows] = await pool.query(`SELECT * FROM users WHERE id = ?`, 
+        [id]
             );
         //console.log(rows[0]);
+        return rows[0];
+    }
+
+    export async function getEmailByID(email) {
+        const [rows] = await pool.query(`SELECT * FROM users WHERE email = ?`, [
+            email,
+        ]);
         return rows[0];
     }
 
