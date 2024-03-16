@@ -27,7 +27,7 @@ app.get("/recordatorios/:id", async(req, res) =>{
     res.status(200).send(recordatorios);
 })
 
-app.get("/recordatorios/shared_recordatorios:id", async (req, res) => {
+app.get("/recordatorios/shared_recordatorios/:id", async (req, res) => {
     const recordatorio = await getSharedRecordatoriosByID(req.params.id);
     const author = await getUserByID(recordatorio.user_id);
     const shared_with = await getUserByID(recordatorio.shared_with_id);
@@ -59,9 +59,9 @@ app.post("/recordatorios/shared_recordatorios", async (req, res) => {
 })
 
 app.post("/recordatorios", async (req, res) => {
-    const { titulo, descripcion, fecha_hora, user_id } = req.body;
-    const recordatorio = await createRecordatorio(titulo, descripcion, fecha_hora, user_id);
-    res.status.apply(201).send(recordatorio);
+    const { user_id, titulo, descripcion, fecha_hora } = req.body;
+    const recordatorio = await createRecordatorio( user_id, titulo, descripcion, fecha_hora);
+    res.status(201).send(recordatorio);
 })
 
 

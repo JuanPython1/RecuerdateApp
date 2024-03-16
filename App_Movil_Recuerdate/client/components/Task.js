@@ -3,14 +3,14 @@ import { View, Text, TouchableOpacity, StyleSheet, Pressable } from "react-nativ
 import { Feather } from "@expo/vector-icons"
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useRef, useState } from "react";
-import SharedTodoRecordatorioContent from "./ShareRecordatorioModalContent";
+import SharedRecordatorioContent from "./ShareRecordatorioModalContent";
+import RecordatorioModalContent from "./RecordatorioModalContent";
 
 
 function CheckMark({ id, completado, toggleRecordatorio }) {
     async function toggle() {
       const response = await fetch(`http://192.168.80.13:8080/recordatorios/${id}`, {
         headers: {
-          "x-api-key": "abcdef123456",
           "Content-Type": "application/json",
         },
         method: "PUT",
@@ -104,13 +104,23 @@ export default function Task({
         snapPoints={snapPointsShared}
         backgroundStyle={{ borderRadius: 50, borderWidth: 4 }}
       >
-        <SharedTodoRecordatorioContent 
+        <SharedRecordatorioContent 
           id={id}
           titulo={titulo}
           shared_with_id={shared_with_id}
           completado={completado}
         />
       </BottomSheetModal>
+
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={2}
+          snapPoints={snapPoints}
+          backgroundStyle={{ borderRadius: 50, borderWidth: 4 }}
+        >
+          <RecordatorioModalContent id={id} titulo={titulo}/>
+        </BottomSheetModal>
+
     </TouchableOpacity>
     );
 }

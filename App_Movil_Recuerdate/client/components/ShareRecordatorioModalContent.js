@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Keyboard, View, Text, StyleSheet, Button, Alert } from "react-native";
 
-export default function SharedTodoModalContent({
+export default function SharedRecordatorioModalContent({
   id,
   titulo,
   descripcion,

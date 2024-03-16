@@ -4,6 +4,7 @@ import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Task from './components/Task';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import InputTask from './components/InputTask';
 
 
 export default function App() {
@@ -40,8 +41,8 @@ export default function App() {
     <GestureHandlerRootView style={styles.container}>
     <BottomSheetModalProvider>
       <StatusBar style="auto" />
-      <View style={styles.container}>
-        <SafeAreaView>
+
+        <SafeAreaView style={styles.container}>
           <FlatList 
           data={recordatorios}
           keyExtractor={(recordatorios) => recordatorios.id}
@@ -49,9 +50,9 @@ export default function App() {
           ListHeaderComponent={() => <Text style={styles.titulo}> Today</Text>}
           contentContainerStyle={styles.contentContainerStyle}
           />
+          <InputTask recordatorios={recordatorios} setRecordatorios={setRecordatorios} />
         </SafeAreaView>
 
-      </View>
     </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );

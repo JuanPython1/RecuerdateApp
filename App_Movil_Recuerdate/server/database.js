@@ -53,13 +53,13 @@
         return rows[0];
     }
 
-    export async function createRecordatorio(titulo, descripcion, fecha_hora, completado ,user_id){
+    export async function createRecordatorio(user_id, titulo, descripcion, fecha_hora ){
         const [result] = await pool.query(
             `
-            INSERT INTO recordatorios (titulo, descripcion, fecha_hora, user_id)
+            INSERT INTO recordatorios ( user_id, titulo, descripcion, fecha_hora)
             VALUES (?, ?, ?, ?);
             `, 
-                [titulo, descripcion, fecha_hora, user_id]
+                [ user_id, titulo, descripcion, fecha_hora]
             );
             const recordatoriosID = result.insertId;
             return getRecordatorios(recordatoriosID);
