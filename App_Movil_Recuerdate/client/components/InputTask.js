@@ -106,16 +106,16 @@ export default function InputTask({ recordatorios, setRecordatorios }) {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.containerTextInput}
-            placeholder="Agregar Nueva Tarea"
+            placeholder="Agregar Una Nueva Tarea"
             scrollEnabled={true}
             onChangeText={setMessageBody}
             defaultValue={messageBody}
           />
           <Pressable onPress={handleSubmit}>
             <AntDesign
-              name="checkcircle"
+              name="check"
               size={40}
-              color={messageBody ? "black" : "#00000050"}
+              color={messageBody ? "black" : "#000000"}
               style={{ paddingLeft: 5 }}
             />
           </Pressable>
@@ -130,8 +130,8 @@ const windowWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
-    borderTopWidth: 0.2,
-    borderTopColor: "#00000030",
+    // borderTopWidth: 0.2,
+    // borderTopColor: "#00000030",
     alignItems: "baseline",
   },
   emojiesContainer: {
@@ -143,29 +143,34 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   inputContainer: {
+    display:"flex",
     width: "100%",
+    height:150,
+    margin:10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#477489",
+    borderWidth: 1,
+    borderRadius: 15,
   },
   emoji: {
     fontSize: 25,
     paddingVertical: 5,
     marginRight: 10,
+    color:"#000000",
   },
 
   containerTextInput: {
+    textAlign:"center",
     width: windowWidth - 100,
-    borderWidth: 1,
-    borderRadius: 30,
-    minHeight: 45,
-    paddingHorizontal: 15,
-    paddingTop: 8,
-    fontSize: 16,
+    // minHeight: 45,
+    // paddingHorizontal: 15,
+    // paddingTop: 8,
+    fontSize: 21,
     paddingVertical: 5,
     borderColor: "lightgray",
-    backgroundColor: "#fff",
+    color:"#ffffff",
     marginBottom: 5,
     fontWeight: "600",
   },

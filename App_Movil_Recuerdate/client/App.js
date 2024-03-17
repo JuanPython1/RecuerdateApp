@@ -1,13 +1,14 @@
+import { AntDesign } from '@expo/vector-icons';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import InputTask from './components/InputTask';
 import Task from './components/Task';
 
 
-export default function App() {
+export default function App({ navigation }) {
 
   
   const [recordatorios, setRecordatorios] = useState([]);
@@ -39,22 +40,29 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-    <BottomSheetModalProvider>
-      <StatusBar style="auto" />
-
+      <BottomSheetModalProvider>
+        <StatusBar style="auto" />
         <SafeAreaView style={styles.container}>
           <FlatList 
-          data={recordatorios}
-          keyExtractor={(recordatorios) => recordatorios.id}
-          renderItem={({ item }) => (<Task {...item} toggleRecordatorio={toggleRecordatorio} clearRecordatorio={clearRecordatorio}/>)}
-          ListHeaderComponent={() => <Text style={styles.titulo}>RecuerDate</Text>}
-          ListEmptyComponent={()=> <Text style={styles.subtitulo}>Mis Tareas</Text>}
-          contentContainerStyle={styles.contentContainerStyle}
+            data={recordatorios}
+            keyExtractor={(recordatorios) => recordatorios.id}
+            renderItem={({ item }) => (
+              <Task {...item} toggleRecordatorio={toggleRecordatorio} clearRecordatorio={clearRecordatorio}/>
+            )}
+            ListHeaderComponent={() => (
+              <>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                  <AntDesign name="logout" size={45} color="black"/>
+                </TouchableOpacity>
+                <Text style={styles.titulo}>RecuerDate</Text>
+              </>
+            )}
+            ListEmptyComponent={() => <Text style={styles.subtitulo}>Mis Tareas</Text>}
+            contentContainerStyle={styles.contentContainerStyle}
           />
           <InputTask recordatorios={recordatorios} setRecordatorios={setRecordatorios} />
         </SafeAreaView>
-
-    </BottomSheetModalProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
@@ -65,10 +73,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#a2f1f8',
+    alignItems:"center",
+    flexDirection:"column",
   },
   contentContainerStyle: {
-    padding: 15,
-    backgroundColor:"#ffffff"
+    flexDirection:"column",
+    justifyContent: 'center',
+    alignContent: 'center',
+    padding: 5,
+    backgroundColor: "#ffffff",
+    width:"100%",
+    margin:57
   },
   titulo: {
     textAlign: "center",
@@ -85,5 +100,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 15,
     top: 10
+  },
+  backButton: {
+    position: 'absolute',
+    transform: [{ rotate: '180deg' }],//codigo para girar algo ajskdak
   }
 });
