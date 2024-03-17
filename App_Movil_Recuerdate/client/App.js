@@ -1,10 +1,10 @@
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import Task from './components/Task';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { FlatList, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import InputTask from './components/InputTask';
+import Task from './components/Task';
 
 
 export default function App() {
@@ -47,7 +47,8 @@ export default function App() {
           data={recordatorios}
           keyExtractor={(recordatorios) => recordatorios.id}
           renderItem={({ item }) => (<Task {...item} toggleRecordatorio={toggleRecordatorio} clearRecordatorio={clearRecordatorio}/>)}
-          ListHeaderComponent={() => <Text style={styles.titulo}> Today</Text>}
+          ListHeaderComponent={() => <Text style={styles.titulo}>RecuerDate</Text>}
+          ListEmptyComponent={()=> <Text style={styles.subtitulo}>Mis Tareas</Text>}
           contentContainerStyle={styles.contentContainerStyle}
           />
           <InputTask recordatorios={recordatorios} setRecordatorios={setRecordatorios} />
@@ -63,14 +64,25 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#E9E9EF',
+    backgroundColor: '#a2f1f8',
   },
   contentContainerStyle: {
     padding: 15,
+    backgroundColor:"#ffffff"
   },
   titulo: {
-    fontWeight: "800",
+    textAlign: "center",
+    fontWeight: "500",
     fontSize: 28,
+    marginBottom: 5,
+    fontStyle: "Montserrat-bold",
+    top: 10
+  },
+  subtitulo: {
+    fontStyle: 'Montserrat-Regular',
+    textAlign: "center",
+    fontWeight: "500",
+    fontSize: 14,
     marginBottom: 15,
     top: 10
   }

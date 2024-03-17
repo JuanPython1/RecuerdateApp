@@ -1,18 +1,18 @@
+import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
+  Animated,
   Dimensions,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  StyleSheet,
   Text,
   TextInput,
-  StyleSheet,
-  View,
   TouchableHighlight,
-  KeyboardAvoidingView,
-  Keyboard,
-  Pressable,
-  Animated,
-  Platform,
+  View,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
 export default function InputTask({ recordatorios, setRecordatorios }) {
   const [showEmojies, setShowEmojies] = useState(false);
@@ -106,7 +106,7 @@ export default function InputTask({ recordatorios, setRecordatorios }) {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.containerTextInput}
-            placeholder="Write a new task"
+            placeholder="Agregar Nueva Tarea"
             scrollEnabled={true}
             onChangeText={setMessageBody}
             defaultValue={messageBody}
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#477489",
   },
   emoji: {
     fontSize: 25,
