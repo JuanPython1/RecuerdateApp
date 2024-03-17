@@ -2,7 +2,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import InputTask from './components/InputTask';
 import Task from './components/Task';
@@ -67,6 +67,7 @@ export default function App({ navigation }) {
   );
 }
 
+const windowWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   
 
@@ -81,9 +82,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     padding: 5,
+    height:119,
     backgroundColor: "#ffffff",
-    width:"100%",
-    margin:57
+    width: windowWidth,
+    alignSelf:"center",
   },
   titulo: {
     textAlign: "center",
@@ -94,6 +96,7 @@ const styles = StyleSheet.create({
     top: 10
   },
   subtitulo: {
+    textAlign:"center",
     fontStyle: 'Montserrat-Regular',
     textAlign: "center",
     fontWeight: "500",
@@ -102,7 +105,8 @@ const styles = StyleSheet.create({
     top: 10
   },
   backButton: {
-    position: 'absolute',
+    flex:1,
+    position:"absolute",
     transform: [{ rotate: '180deg' }],//codigo para girar algo ajskdak
   }
 });

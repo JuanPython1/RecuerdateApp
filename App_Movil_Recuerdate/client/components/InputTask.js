@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
-    paddingLeft: 10,
     marginVertical: 10,
   },
   inputContainer: {
@@ -151,7 +150,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#477489",
-    borderWidth: 1,
     borderRadius: 15,
   },
   emoji: {

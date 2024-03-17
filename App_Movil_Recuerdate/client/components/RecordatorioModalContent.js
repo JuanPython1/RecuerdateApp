@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Keyboard, View, Text, StyleSheet, Button, Alert } from "react-native";
+import { Alert, Button, Keyboard, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
 export default function RecordatorioModalContent({ id, titulo }) {
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingHorizontal: 15,
+    borderWidth:5,
   },
   title: {
     fontWeight: "900",
