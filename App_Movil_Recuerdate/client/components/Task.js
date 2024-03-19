@@ -5,11 +5,13 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useRef, useState } from "react";
 import SharedRecordatorioContent from "./ShareRecordatorioModalContent";
 import RecordatorioModalContent from "./RecordatorioModalContent";
+import { getIPAddress } from 'react-native-network-info';
 
 
 function CheckMark({ id, completado, toggleRecordatorio }) {
     async function toggle() {
-      const response = await fetch(`http://192.168.80.13:8080/recordatorios/${id}`, {
+      const ip = await getIPAddress();
+      const response = await fetch(`http://${ip}:8080/recordatorios/${id}`, {
         headers: {
           "Content-Type": "application/json",
         },

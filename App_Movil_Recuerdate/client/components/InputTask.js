@@ -1,5 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
+import { getIPAddress } from 'react-native-network-info';
 import {
   Animated,
   Dimensions,
@@ -47,7 +48,8 @@ export default function InputTask({ recordatorios, setRecordatorios }) {
       return;
     } else {
         const currentTime = new Date();
-      const response = await fetch("http://192.168.80.13:8080/recordatorios", {
+        const ip = await getIPAddress();
+      const response = await fetch(`http://${ip}:8080/recordatorios`, {
         headers: {
           "Content-Type": "application/json",
         },

@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Alert, Button, Keyboard, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { getIPAddress } from 'react-native-network-info';
 
 export default function RecordatorioModalContent({ id, titulo }) {
   const [email, setEmail] = useState("");
   const [focus, setFocus] = useState(false);
 
   const handleSubmit = async () => {
-    const response = await fetch("http://192.168.80.13:8080/recordatorios/shared_recordatorios", {
+    const ip = await getIPAddress();
+    const response = await fetch(`http://${ip}:8080/recordatorios/shared_recordatorios`, {
       headers: {
         "Content-Type": "application/json",
       },

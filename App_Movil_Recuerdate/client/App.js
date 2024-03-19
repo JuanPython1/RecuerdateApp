@@ -1,14 +1,15 @@
-import { AntDesign } from '@expo/vector-icons';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, StyleSheet, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import InputTask from './components/InputTask';
 import Task from './components/Task';
+import { getIPAddress } from 'react-native-network-info';
 
 
-export default function App({ navigation }) {
+
+export default function App() {
 
   
   const [recordatorios, setRecordatorios] = useState([]);
@@ -18,7 +19,8 @@ export default function App({ navigation }) {
   }, [])
 
   async function fetchData() {
-    const response = await fetch("http://192.168.80.13:8080/recordatorios/1");
+    const ip = await getIPAddress();
+    const response = await fetch(`http://${ip}:8080/recordatorios/1`);
     const data = await response.json();
     setRecordatorios(data);
   }
@@ -40,52 +42,36 @@ export default function App({ navigation }) {
 
   return (
     <GestureHandlerRootView style={styles.container}>
-      <BottomSheetModalProvider>
-        <StatusBar style="auto" />
+    <BottomSheetModalProvider>
+      <StatusBar style="auto" />
+
         <SafeAreaView style={styles.container}>
           <FlatList 
-            data={recordatorios}
-            keyExtractor={(recordatorios) => recordatorios.id}
-            renderItem={({ item }) => (
-              <Task {...item} toggleRecordatorio={toggleRecordatorio} clearRecordatorio={clearRecordatorio}/>
-            )}
-            ListHeaderComponent={() => (
-              <>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-                  <AntDesign name="logout" size={45} color="black"/>
-                </TouchableOpacity>
-                <Text style={styles.titulo}>RecuerDate</Text>
-              </>
-            )}
-            ListEmptyComponent={() => <Text style={styles.subtitulo}>Mis Tareas</Text>}
-            contentContainerStyle={styles.contentContainerStyle}
+          data={recordatorios}
+          keyExtractor={(recordatorios) => recordatorios.id}
+          renderItem={({ item }) => (<Task {...item} toggleRecordatorio={toggleRecordatorio} clearRecordatorio={clearRecordatorio}/>)}
+          ListHeaderComponent={() => <Text style={styles.titulo}>RecuerDate</Text>}
+          ListEmptyComponent={()=> <Text style={styles.subtitulo}>Mis Tareas</Text>}
+          contentContainerStyle={styles.contentContainerStyle}
           />
           <InputTask recordatorios={recordatorios} setRecordatorios={setRecordatorios} />
         </SafeAreaView>
-      </BottomSheetModalProvider>
+
+    </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }
 
-const windowWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   
 
   container: {
     flex: 1,
     backgroundColor: '#a2f1f8',
-    alignItems:"center",
-    flexDirection:"column",
   },
   contentContainerStyle: {
-    flexDirection:"column",
-    justifyContent: 'center',
-    alignContent: 'center',
-    padding: 5,
-    height:119,
-    backgroundColor: "#ffffff",
-    width: windowWidth,
-    alignSelf:"center",
+    padding: 15,
+    backgroundColor:"#ffffff"
   },
   titulo: {
     textAlign: "center",
@@ -96,17 +82,11 @@ const styles = StyleSheet.create({
     top: 10
   },
   subtitulo: {
-    textAlign:"center",
     fontStyle: 'Montserrat-Regular',
     textAlign: "center",
     fontWeight: "500",
     fontSize: 14,
     marginBottom: 15,
     top: 10
-  },
-  backButton: {
-    flex:1,
-    position:"absolute",
-    transform: [{ rotate: '180deg' }],//codigo para girar algo ajskdak
   }
 });

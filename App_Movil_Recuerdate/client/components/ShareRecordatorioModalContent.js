@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Keyboard, View, Text, StyleSheet, Button, Alert } from "react-native";
+import { getIPAddress } from 'react-native-network-info';
 
 export default function SharedRecordatorioModalContent({
   id,
@@ -16,8 +17,9 @@ export default function SharedRecordatorioModalContent({
   }, []);
 
   async function fetchInfo() {
+    const ip = await getIPAddress();
     const response = await fetch(
-      `http://192.168.80.13:8080/recordatorios/shared_recordatorios/${id}`,
+      `http://${ip}:8080/recordatorios/shared_recordatorios/${id}`,
       {
         method: "GET",
       }
