@@ -1,7 +1,7 @@
 import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator, KeyboardAvoidingView } from 'react-native'
 import React, { useState } from 'react'
 import { FIREBASE_AUTH } from '../../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { NavigationProp } from '@react-navigation/native';
 
 
@@ -28,7 +28,7 @@ const Login = ({navigation}: RouterProps) => {
     }
   }
 
-  
+
   const goToRegister = () => {
     navigation.navigate('Register'); // Navega a la pantalla de registro
   };
