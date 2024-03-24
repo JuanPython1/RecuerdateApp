@@ -2,9 +2,14 @@ import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator, KeyboardA
 import React, { useState } from 'react'
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { NavigationProp } from '@react-navigation/native';
 
 
-const Login = () => {
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
+
+const Login = ({navigation}: RouterProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,19 +28,10 @@ const Login = () => {
     }
   }
 
-  const singUp = async () => {
-    setLoading(true);
-    try{
-      const response = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      alert('¡RECUERDATE EN REVISAR TU CORREO ELECTRONICO!')
-    } catch (error: any) {
-      console.log(error);
-      alert('Registro fallido: '+ error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+  
+  const goToRegister = () => {
+    navigation.navigate('Register'); // Navega a la pantalla de registro
+  };
  
   return (
     <View style={styles.container}>
@@ -50,7 +46,7 @@ const Login = () => {
         ) : (
             <>
               <Button title='Iniciar' onPress={singIn}/>
-              <Button title='Registrarse' onPress={singUp}/>
+              <Button title='Registrarse' onPress={goToRegister} /> 
             </>
         )}
       </KeyboardAvoidingView>

@@ -6,6 +6,7 @@ import Detalles from './app/screens/Detalles';
 import { useEffect, useState } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './firebaseConfig';
+import Registro from './app/screens/Registro';
 
 const Stack = createNativeStackNavigator();
 const StackInterna = createNativeStackNavigator();
@@ -37,8 +38,11 @@ export default function App() {
       <Stack.Navigator initialRouteName='Login'>
         {user ? (<Stack.Screen name='Interno' component={diseñoInterno} options={{headerShown: false}} />):
          (<Stack.Screen name='Login' component={Login} options={{headerShown: false}} />)}
-          
+
+          <Stack.Screen name='Register' component={Registro} />
       </Stack.Navigator>
+
+
     </NavigationContainer>
   );
 }
