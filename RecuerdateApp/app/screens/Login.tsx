@@ -1,8 +1,8 @@
-import { View, StyleSheet, TextInput, Text, Button, ActivityIndicator, KeyboardAvoidingView } from 'react-native'
-import React, { useState } from 'react'
-import { FIREBASE_AUTH } from '../../firebaseConfig';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { NavigationProp } from '@react-navigation/native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import { ActivityIndicator, Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 
 interface RouterProps {
@@ -35,18 +35,22 @@ const Login = ({navigation}: RouterProps) => {
  
   return (
     <View style={styles.container}>
+    <View style={styles.backImage} />
+      <View style={styles.whiteSheet} />
       <KeyboardAvoidingView behavior='padding'>
-        <Text>Correo</Text>
+        <Text style={styles.h1}>Iniciar sesión</Text>
+        <Text style={styles.h3}>Inicie sesión para continuar.</Text>
+        <Text style={styles.h2}>CORREO</Text>
         <TextInput value={email} style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)}   ></TextInput>
-        <Text>Contraseña</Text>
+        <Text style={styles.h2}>CONTRASEÑA</Text>
         <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPassword(text)}   ></TextInput>
 
         { loading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
+            <ActivityIndicator size="large" color="#0000" />
         ) : (
             <>
-              <Button title='Iniciar' onPress={singIn}/>
-              <Button title='Registrarse' onPress={goToRegister} /> 
+              <Button  title='Iniciar' onPress={singIn} color='#cff9fd'/>
+              <Button title='Registrarse' onPress={goToRegister} color='#cff9fd' />
             </>
         )}
       </KeyboardAvoidingView>
@@ -58,16 +62,58 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
+    textAlign:'justify',
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#acf9ff',
+    color: '#ffffff'
+  },
+  h1:{
+    paddingTop:5,
+    color:'#cefafb',
+    textAlign:'center',
+    fontSize:30
+  },
+  h2:{
+    color:'#cefafb',
+    paddingLeft:65,
+    fontSize:10
+  },
+  h3:{
+    color:'#cefafb',
+    textAlign:'center',
+    fontSize:9
+  },
+  backImage: {
+    backgroundColor: '#acf9ff',
+    width: "100%",
+    height: 340,
+    position: "absolute",
+    top: 0,
+    resizeMode: 'cover',
+  },
+  whiteSheet: {
+    width: '100%',
+    height: '75%',
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: '#081e36',
+    borderTopRightRadius: 50,
+    color:'#ffffff'
   },
   input: {
-    marginVertical: 4,
+    marginVertical: 10,
+    marginHorizontal: 65,
     height: 50,
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 20,
     padding: 10,
-    backgroundColor: '#fff'
+    backgroundColor: '#5d524c',
+    color: '#ffffff'
+  },
+  Button: {
+    color:'#000000',
+    padding: 10,
+    borderRadius: 5
   }
 });
