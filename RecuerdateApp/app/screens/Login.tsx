@@ -36,7 +36,7 @@ const Login = ({navigation}: RouterProps) => {
   return (
     <View style={styles.container}>
     <View style={styles.backImage} />
-      <View style={styles.whiteSheet} />
+      <View style={styles.whiteSheet}>
       <KeyboardAvoidingView behavior='padding'>
         <Text style={styles.h1}>Iniciar sesión</Text>
         <Text style={styles.h3}>Inicie sesión para continuar.</Text>
@@ -54,6 +54,7 @@ const Login = ({navigation}: RouterProps) => {
             </>
         )}
       </KeyboardAvoidingView>
+      </View>
     </View>
   );
 };
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
   },
   whiteSheet: {
     width: '100%',
-    height: '75%',
+    height: '65%',
     position: "absolute",
     bottom: 0,
     backgroundColor: '#081e36',
