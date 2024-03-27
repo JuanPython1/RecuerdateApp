@@ -14,8 +14,8 @@ const StackInterna = createNativeStackNavigator();
 function diseñoInterno() {
   return(
     <StackInterna.Navigator>
-       <StackInterna.Screen name='Mi tareas' component={Lista} />
-       <StackInterna.Screen name='detalles' component={Detalles} />
+       <StackInterna.Screen name='Mi tareas' component={Lista} options={{headerShown:false}}/>
+       <StackInterna.Screen name='detalles' component={Detalles} options={{headerShown: false}} />
     </StackInterna.Navigator>
   )
 
