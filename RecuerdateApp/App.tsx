@@ -1,12 +1,12 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Login from './app/screens/Login';
-import Lista from './app/screens/Lista';
-import Detalles from './app/screens/Detalles';
-import { useEffect, useState } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { User, onAuthStateChanged } from 'firebase/auth';
-import { FIREBASE_AUTH } from './firebaseConfig';
+import { useEffect, useState } from 'react';
+import Detalles from './app/screens/Detalles';
+import Lista from './app/screens/Lista';
+import Login from './app/screens/Login';
 import Registro from './app/screens/Registro';
+import { FIREBASE_AUTH } from './firebaseConfig';
 
 const Stack = createNativeStackNavigator();
 const StackInterna = createNativeStackNavigator();

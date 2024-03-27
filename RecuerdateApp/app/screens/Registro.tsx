@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 
@@ -38,10 +38,9 @@ const Registro = ({ navigation }) => {
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          <>
-            <Button title='Registrarse' onPress={singUp} color={'#000000'} />
-            <Button title='Volver al inicio de sesión' onPress={() => navigation.navigate('Login')} color={'#000000'} /> {/* Botón para regresar al inicio de sesión */}
-          </>
+          <TouchableOpacity style={styles.button1} onPress={singUp}>
+        <Text style={styles.h3}>Únete</Text>
+      </TouchableOpacity>
         )}
       </KeyboardAvoidingView>
       </View>
@@ -54,7 +53,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#acf9ff',
-    color:'#000000'
   },
   whiteSheet: {
     width: '100%',
@@ -66,6 +64,7 @@ const styles = StyleSheet.create({
     color:'#ffffff'
   },
   h1:{
+    fontFamily:'Roboto',
     paddingTop:5,
     marginHorizontal: 65,
     color:'#000000',
@@ -73,21 +72,37 @@ const styles = StyleSheet.create({
     fontSize:30
   },
   h2:{
+    fontFamily:'Roboto',
+    fontWeight:'bold',
     paddingTop:5,
     marginHorizontal: 65,
     color:'#d3d3d3',
     textAlign:'left',
     fontSize:10
   },
+  h3:{
+    textAlign:'center',
+    color:'#ffffff'
+  },
   input: {
+    fontFamily:'Roboto',
     marginVertical: 10,
     marginHorizontal: 65,
-    height: 50,
-    borderWidth: 1,
+    height: 56,
+    borderWidth: 0,
     borderRadius: 20,
     padding: 10,
     backgroundColor: '#d3d3d3'
-  }
+  },
+  button1: {
+    marginVertical: 10,
+    marginHorizontal: 65,
+    backgroundColor:'#000000',
+    height:53,
+    padding: 10,
+    borderWidth:1,
+    borderRadius: 5
+  },
 });
 
 export default Registro;
