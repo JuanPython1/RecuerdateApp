@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, TouchableOpacity, Text, KeyboardAvoidingView, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 
@@ -39,12 +39,8 @@ const Registro = ({ navigation }) => {
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <>
-            <TouchableOpacity style={styles.button} onPress={singUp}>
-              <Text style={styles.buttonText}>Registrarse</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.buttonText}>Volver al inicio de sesión</Text>
-            </TouchableOpacity>
+            <Button title='Registrarse' onPress={singUp} color={'#000000'} />
+            <Button title='Volver al inicio de sesión' onPress={() => navigation.navigate('Login')} color={'#000000'} /> {/* Botón para regresar al inicio de sesión */}
           </>
         )}
       </KeyboardAvoidingView>
@@ -58,7 +54,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#acf9ff',
-    color:'#000000'
   },
   whiteSheet: {
     width: '100%',
@@ -70,6 +65,7 @@ const styles = StyleSheet.create({
     color:'#ffffff'
   },
   h1:{
+    fontFamily:'Roboto',
     paddingTop:5,
     marginHorizontal: 65,
     color:'#000000',
@@ -77,34 +73,28 @@ const styles = StyleSheet.create({
     fontSize:30
   },
   h2:{
+    fontFamily:'Roboto',
+    fontWeight:'bold',
     paddingTop:5,
     marginHorizontal: 65,
     color:'#d3d3d3',
     textAlign:'left',
     fontSize:10
   },
+  h3:{
+    textAlign:'center',
+    color:'#ffffff'
+  },
   input: {
+    fontFamily:'Roboto',
     marginVertical: 10,
     marginHorizontal: 65,
-    height: 50,
-    borderWidth: 1,
+    height: 56,
+    borderWidth: 0,
     borderRadius: 20,
     padding: 10,
     backgroundColor: '#d3d3d3'
-  },
-  button: {
-    backgroundColor: '#000000', // Cambio de color a gris
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    margin: 10,
-    width: '80%', // Reducción del ancho del botón
-    alignSelf: 'center' // Alineación del botón al centro
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontSize: 16,
-  },
+  }
 });
 
 export default Registro;

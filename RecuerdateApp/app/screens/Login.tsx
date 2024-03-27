@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, TouchableOpacity, Text, KeyboardAvoidingView, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 
@@ -22,7 +22,7 @@ const Login = ({navigation}: RouterProps) => {
       console.log(response);
     } catch (error: any) {
       console.log(error);
-      alert('Iniciar Session fallido: '+ error.message);
+      alert('Iniciar Sesión fallido: '+ error.message);
     } finally {
       setLoading(false);
     }
@@ -49,12 +49,8 @@ const Login = ({navigation}: RouterProps) => {
             <ActivityIndicator size="large" color="#0000" />
         ) : (
             <>
-              <TouchableOpacity style={styles.button} onPress={singIn}>
-                <Text style={styles.buttonText}>Iniciar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={goToRegister}>
-                <Text style={styles.buttonText}>Registrarse</Text>
-              </TouchableOpacity>
+              <Button  title='Iniciar' onPress={singIn} color='#cff9fd'/>
+              <Button title='Registrarse' onPress={goToRegister} color='#cff9fd' />
             </>
         )}
       </KeyboardAvoidingView>
@@ -74,19 +70,35 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   h1:{
+    fontWeight:'bold',
+    fontFamily:'Roboto',
     paddingTop:5,
     color:'#cefafb',
     textAlign:'center',
     fontSize:30
   },
   h2:{
+    fontFamily:'Roboto',
     color:'#cefafb',
     paddingLeft:65,
     fontSize:10
   },
   h3:{
+    fontFamily:'Roboto',
     color:'#cefafb',
     textAlign:'center',
+    fontSize:9
+  },
+  h4:{
+    fontFamily:'Roboto',
+    fontSize:14,
+    textAlign:'center',
+    color:'#081e36'
+  },
+  h5:{
+    fontFamily:'Roboto',
+    textAlign:'center',
+    color:'#d0f9fd',
     fontSize:9
   },
   backImage: {
@@ -98,6 +110,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   whiteSheet: {
+    paddingTop:50,
     width: '100%',
     height: '65%',
     position: "absolute",
@@ -107,7 +120,7 @@ const styles = StyleSheet.create({
     color:'#ffffff'
   },
   input: {
-    marginVertical: 10,
+    marginVertical: 5,
     marginHorizontal: 65,
     height: 50,
     borderWidth: 1,
@@ -116,17 +129,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#5d524c',
     color: '#ffffff'
   },
-  button: {
-    backgroundColor: '#acf9ff', // Cambio de color a gris
+  Button: {
+    color:'#000000',
     padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    margin: 10,
-    width: '80%', // Reducción del ancho del botón
-    alignSelf: 'center' // Alineación del botón al centro
-  },
-  buttonText: {
-    color: '#081e36',
-    fontSize: 16,
-  },
+    borderRadius: 5
+  }
 });
