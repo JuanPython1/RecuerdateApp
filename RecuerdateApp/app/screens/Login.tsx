@@ -1,9 +1,8 @@
 import { NavigationProp } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
-
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -28,7 +27,6 @@ const Login = ({navigation}: RouterProps) => {
     }
   }
 
-
   const goToRegister = () => {
     navigation.navigate('Register'); // Navega a la pantalla de registro
   };
@@ -49,8 +47,12 @@ const Login = ({navigation}: RouterProps) => {
             <ActivityIndicator size="large" color="#0000" />
         ) : (
             <>
-              <Button  title='Iniciar' onPress={singIn} color='#cff9fd'/>
-              <Button title='Registrarse' onPress={goToRegister} color='#cff9fd' />
+              <TouchableOpacity style={styles.button} onPress={singIn}>
+                <Text style={styles.buttonText}>Iniciar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={goToRegister}>
+                <Text style={styles.buttonText}>Registrarse</Text>
+              </TouchableOpacity>
             </>
         )}
       </KeyboardAvoidingView>
@@ -129,9 +131,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#5d524c',
     color: '#ffffff'
   },
-  Button: {
-    color:'#000000',
+  button: {
+    backgroundColor: '#cff9fd',
     padding: 10,
-    borderRadius: 5
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '80%',
+    alignSelf: 'center',
+    marginTop: 10
+  },
+  buttonText: {
+    color: '#000000',
   }
 });
