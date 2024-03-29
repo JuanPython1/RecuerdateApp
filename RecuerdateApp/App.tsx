@@ -39,7 +39,7 @@ export default function App() {
         {user ? (<Stack.Screen name='Interno' component={diseñoInterno} options={{headerShown: false}} />):
          (<Stack.Screen name='Login' component={Login} options={{headerShown: false}} />)}
 
-          <Stack.Screen name='Register' component={Registro} />
+          <Stack.Screen name='Register' component={Registro} options={{headerShown: false}} />
       </Stack.Navigator>
 
 
