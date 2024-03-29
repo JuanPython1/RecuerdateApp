@@ -15,15 +15,19 @@ const Lista = ({navigation}: RouterProps) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.backImage}>
       <Text style={styles.h1}>RercuerDate</Text>
       <Text style={styles.h1}>Mis Tareas</Text>
-      
+
+      <View style={styles.whiteSheet}>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('detalles')}>
         <Text style={styles.buttonText}>Abrir Detalles</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => FIREBASE_AUTH.signOut()}>
         <Text style={styles.buttonText}>Cerrar Sesión</Text>
       </TouchableOpacity>
+      </View>
+      </View>
     </View>
   )
 }
@@ -67,7 +71,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     backgroundColor: '#081e36',
-    borderTopRightRadius: 50,
     color:'#ffffff'
   },
   input: {
