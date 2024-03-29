@@ -26,7 +26,11 @@ const Registro = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* <Text style={styles.h1}>Crear una nueva cuenta</Text> */}
+      <View style={styles.signInContainer}>
       <Text style={styles.h1}>Crear una nueva cuenta</Text>
+        <Text style={styles.signInText}>¿Ya estás registrado? Inicia sesión <Text style={styles.signInLink} onPress={() => navigation.navigate('Login')}>aquí</Text>.</Text>
+      </View>
       <View style={styles.whiteSheet}>
       <KeyboardAvoidingView behavior='padding'>
         <Text style={styles.h2}>CORREO</Text>
@@ -39,11 +43,11 @@ const Registro = ({ navigation }) => {
         ) : (
           <>
             <TouchableOpacity style={styles.button} onPress={singUp}>
-              <Text style={styles.buttonText}>Registrarse</Text>
+              <Text style={styles.buttonText}>Únete</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+            {/* <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
               <Text style={styles.buttonText}>Volver al inicio de sesión</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </>
         )}
       </KeyboardAvoidingView>
@@ -56,7 +60,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#acf9ff',
+    backgroundColor: '#a2f1f8',
+    position:'relative'
+  },
+  signInContainer: {
+    // textAlign:'right',
+    position: 'absolute', // Para posicionar el contenedor del enlace de manera absoluta
+    bottom: '82%', // Distancia desde la parte inferior de la pantalla
+    width: '100%', // Ancho completo
+    paddingHorizontal: 65, // Espacio en los bordes laterales
+    zIndex:2
   },
   whiteSheet: {
     width: '100%',
@@ -65,15 +78,30 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: '#ffffff',
     borderTopLeftRadius: 50,
-    color:'#ffffff'
+    color:'#ffffff',
+    zIndex:1
   },
-  h1:{
+  h1: {
+    fontFamily: 'Roboto',
+    // paddingHorizontal:65,
+    // paddingTop:'auto',
+    color: '#000000',
+    textAlign:'right',
+    fontSize: 26,
+    // zIndex:2
+  },
+  signInText: {
     fontFamily:'Roboto',
-    paddingTop:5,
-    marginHorizontal: 65,
+    // paddingHorizontal: 65,
     color:'#000000',
-    textAlign:'left',
-    fontSize:30
+    textAlign:'right',
+    fontSize:12,
+    // paddingBottom:'80%'
+  },
+  signInLink: {
+    fontWeight:'bold',
+    color: 'black', // Color azul para indicar un enlace
+    // textDecorationLine: 'underline', // Subrayado para indicar un enlace
   },
   h2:{
     fontFamily:'Roboto',
@@ -82,11 +110,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 65,
     color:'#d3d3d3',
     textAlign:'left',
-    fontSize:10
+    fontSize:10,
+    zIndex:3
   },
   h3:{
-    textAlign:'center',
-    color:'#ffffff'
+    fontFamily:'Roboto',
+    paddingHorizontal: 65,
+    textAlign:'right',
+    fontSize:14,
+    paddingBottom:'80%'
   },
   input: {
     fontFamily:'Roboto',
@@ -102,14 +134,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     padding: 10,
     borderRadius: 5,
+    marginHorizontal: 65,
     alignItems: 'center',
-    width: '80%',
-    alignSelf: 'center',
+    // width: '80%',
+    // alignSelf: 'center',
     marginTop: 10
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: 12,
   }
 });
 

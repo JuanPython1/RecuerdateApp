@@ -1,6 +1,6 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
-import React, { useEffect } from 'react';
 import { NavigationProp } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 interface RouterProps {
@@ -23,7 +23,7 @@ const Lista = ({ navigation }: RouterProps) => {
               }}>
               <Image style={styles.icon} source={require('../../assets/icono.png')} />
             </Pressable>
-            <Text style={styles.h1}>RecuerDate</Text>  
+            <Text style={styles.h1}>RecuerDate</Text>
             <Pressable
               onPress={() => navigation.navigate('detalles')}
               style={({ pressed }) => {
@@ -34,7 +34,7 @@ const Lista = ({ navigation }: RouterProps) => {
           </View>
           <Text style={styles.h2}>Mis Tareas</Text>
         </View>
-        <Text> ^ Filtrar por Fecha</Text>
+        <Text style={styles.h3}> ^ Filtrar por Fecha</Text>
       </View>
     </View>
   );
@@ -50,15 +50,25 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   h1: {
-    paddingTop: 2,
-    fontSize: 30,
+    fontFamily:'Roboto',
+    fontWeight:'bold',
+    // paddingTop: 2,
+    fontSize: 18,
     textAlign:"center",
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   h2: {
     color: 'black',
-    fontSize: 15,
-    paddingTop: 2,
+    fontSize: 12,
+    // paddingTop: 2,
     textAlign:"center",
+  },
+  h3: {
+    color: 'black',
+    fontSize: 12,
+    paddingTop: 2,
+    textAlign:"left",
   },
   backImage: {
     backgroundColor: '#acf9ff',
@@ -70,20 +80,21 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 10,
   },
   titleContainer: {
     flexDirection: 'row',
-    alignItems: 'center',   
+    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    marginTop: 20,
-    
+    marginTop: 5,
+    height:20,
   },
   icon: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',   
+    width: 45,
+    height: 45,
+    marginTop:20
+    // resizeMode: 'contain',
   },
 });

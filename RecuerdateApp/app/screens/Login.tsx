@@ -47,11 +47,11 @@ const Login = ({navigation}: RouterProps) => {
             <ActivityIndicator size="large" color="#0000" />
         ) : (
             <>
-              <TouchableOpacity style={styles.button} onPress={singIn}>
+              <TouchableOpacity style={styles.button1} onPress={singIn}>
                 <Text style={styles.buttonText}>Iniciar</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={goToRegister}>
-                <Text style={styles.buttonText}>Registrarse</Text>
+              <TouchableOpacity style={styles.button2} onPress={goToRegister}>
+                <Text style={styles.buttonText2}>¡Inscribete!</Text>
               </TouchableOpacity>
             </>
         )}
@@ -131,16 +131,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#5d524c',
     color: '#ffffff'
   },
-  button: {
+  button1: {
     backgroundColor: '#cff9fd',
     padding: 10,
     borderRadius: 5,
+    marginHorizontal: 65,
     alignItems: 'center',
-    width: '80%',
-    alignSelf: 'center',
+    // alignSelf: 'center',
+    marginTop: 10
+  },
+  button2: {
+    // backgroundColor: '#cff9fd',
+    padding: 10,
+    borderRadius: 5,
+    // alignItems: 'center',
+    // width: '80%',
+    // alignSelf: 'center',
     marginTop: 10
   },
   buttonText: {
     color: '#000000',
+    fontSize: 14
+  },
+  buttonText2: {
+    textAlign:'center',
+    color: '#d0f9fd',
+    fontSize: 10
   }
 });
