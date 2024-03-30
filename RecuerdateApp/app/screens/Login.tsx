@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 interface RouterProps {
@@ -34,6 +34,7 @@ const Login = ({navigation}: RouterProps) => {
   return (
     <View style={styles.container}>
     <View style={styles.backImage} />
+    <Image style={styles.image} source={require('../../assets/logopequeño.jpg')} />
       <View style={styles.whiteSheet}>
       <KeyboardAvoidingView behavior='padding'>
         <Text style={styles.h1}>Iniciar sesión</Text>
@@ -67,9 +68,11 @@ const styles = StyleSheet.create({
   container: {
     textAlign:'justify',
     flex: 1,
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     backgroundColor: '#acf9ff',
-    color: '#ffffff'
+    color: '#ffffff',
+    paddingTop: 50,
   },
   h1:{
     fontWeight:'bold',
@@ -110,6 +113,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     resizeMode: 'cover',
+    zIndex: 0,
   },
   whiteSheet: {
     paddingTop:50,
@@ -119,7 +123,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: '#081e36',
     borderTopRightRadius: 50,
-    color:'#ffffff'
+    color:'#ffffff',
+    alignItems: 'center',
+    zIndex: 1,
   },
   input: {
     marginVertical: 5,
@@ -157,5 +163,12 @@ const styles = StyleSheet.create({
     textAlign:'center',
     color: '#d0f9fd',
     fontSize: 10
-  }
+  },
+  image: {
+    width: 200, // Ancho deseado de la imagen
+    height: 200, // Altura deseada de la imagen
+    resizeMode: 'contain', // Ajusta la imagen para que quepa en su contenedor
+    marginBottom: 20, // Margen inferior opcional para separar del texto
+    zIndex: 2,
+  },
 });
