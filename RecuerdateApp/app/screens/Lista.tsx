@@ -34,7 +34,7 @@ const Lista = ({ navigation }: RouterProps) => {
           </View>
           <Text style={styles.h2}>Mis Tareas</Text>
         </View>
-        <Text style={styles.h3}> ^ Filtrar por <Text style={styles.signInLink} onPress={() => navigation.navigate('')}>Fecha</Text></Text>
+        <Text style={styles.h3}> ^ Filtrar por Fecha</Text>
       </View>
     </View>
   );
@@ -96,9 +96,5 @@ const styles = StyleSheet.create({
     height: 45,
     marginTop:20
     // resizeMode: 'contain',
-  },
-  signInLink: {
-      fontWeight:'bold',
-      color: 'black',
   },
 });
