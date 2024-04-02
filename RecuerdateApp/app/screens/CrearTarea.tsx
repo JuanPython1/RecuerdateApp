@@ -1,6 +1,6 @@
 import { NavigationProp } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { View, Text, Pressable, Image, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
 import { addDoc, collection } from 'firebase/firestore';
 
@@ -8,49 +8,41 @@ interface RouterProps {
   navigation: NavigationProp<any, any>;
 }
 
-const Lista = ({ navigation }: RouterProps) => {
+const CrearTarea = ({ navigation }: RouterProps) => {
+  const [tareas, setTareas] = useState<any[]>([]);
+  const [tarea, setTarea] = useState('');
 
-  const goToTareas = () => {
-      navigation.navigate('CrearTarea')
-  }
+  useEffect(() => {}, []);
+
+  const addTarea = async () => {
+    const doc = addDoc(collection(FIRESTORE_DB, 'Tareas'), {Titulo: 'Soy un titulo' , Descripcion: 'Soy una descripcion', Realizado: false});
+    console.log("doc: ", doc)
+  } 
+
 
 
   return (
     <View style={styles.container}>
-      <View style={styles.backImage}>
-        <View style={styles.whiteBox}>
-          <View style={styles.titleContainer}>
-          
-            <Pressable
-              onPress={() => FIREBASE_AUTH.signOut()}
-              style={({ pressed }) => {
-                return { opacity: pressed ? 0 : 1 };
-              }}>
+    <View style={styles.backImage}>
+      <View style={styles.whiteBox}>
+        <View style={styles.titleContainer}>
+           <Pressable
+              onPress={() => navigation.navigate('Mi tareas')}
+              >
               <Image style={styles.icon} source={require('../../assets/icono.png')} />
-            </Pressable>
-            <Text style={styles.h1}>RecuerDate</Text>
-            <Pressable
-              onPress={() => navigation.navigate('Perfil')}
-              style={({ pressed }) => {
-                return { opacity: pressed ? 0 : 1 };
-              }}>
-              <Image style={styles.icon} source={require('../../assets/perfil.png')} />
-            </Pressable>
-          </View>
-          <Text style={styles.h2}>Mis Tareas</Text>
-
-        </View>
-        <Text style={styles.h3}> ^ Filtrar por Fecha</Text>
+      </Pressable>
+      <Text style={styles.h1}>RecuerDate</Text>
       </View>
       
-      <TouchableOpacity style={styles.button} onPress={goToTareas}>
-                <Text style={styles.buttonText}>Crear Tarea</Text>
-      </TouchableOpacity>
+      <Text style={styles.h2}>CrearTarea</Text>
     </View>
-  );
-};
+    </View>
+    </View>
+  )
+}
 
-export default Lista;
+export default CrearTarea
+
 
 const styles = StyleSheet.create({
   container: {
@@ -90,7 +82,7 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 10,
+    paddingTop: 1,
     paddingBottom: 10,
   },
   titleContainer: {
