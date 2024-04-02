@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 interface RouterProps {
@@ -33,6 +33,7 @@ const Login = ({navigation}: RouterProps) => {
  
   return (
     <View style={styles.container}>
+      <Image style={styles.logo} source={require("../../assets/LOGOACUERDATE.jpg")}  />
     <View style={styles.backImage} />
       <View style={styles.whiteSheet}>
       <KeyboardAvoidingView behavior='padding'>
@@ -119,7 +120,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: '#081e36',
     borderTopRightRadius: 50,
-    color:'#ffffff'
+    color:'#ffffff',
+    zIndex: 1
   },
   input: {
     marginVertical: 5,
@@ -157,5 +159,15 @@ const styles = StyleSheet.create({
     textAlign:'center',
     color: '#d0f9fd',
     fontSize: 10
-  }
+  },
+  logo: {
+    width: 250,
+    height: 250,
+    zIndex: 1,
+    alignItems: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    top: 50,
+    // resizeMode: 'contain',
+  },
 });
