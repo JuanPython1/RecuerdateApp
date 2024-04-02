@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     color: '#000000',
     textAlign:'right',
-    fontSize: 26,
+    fontSize: 28,
   },
   signInText: {
     fontFamily:'Roboto',
     color:'#000000',
     textAlign:'right',
-    fontSize:12,
+    fontSize:14,
   },
   signInLink: {
     fontWeight:'bold',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 65,
     color:'#d3d3d3',
     textAlign:'left',
-    fontSize:10,
+    fontSize:12,
     zIndex:3
   },
   input: {
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: 14,
   }
 });
 

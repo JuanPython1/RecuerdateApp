@@ -1,8 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { Button, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
-import { addDoc, collection } from 'firebase/firestore';
+import React from 'react';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -44,7 +43,7 @@ const Lista = ({ navigation }: RouterProps) => {
       </View>
       
       <TouchableOpacity style={styles.button} onPress={goToTareas}>
-                <Text style={styles.buttonText}>Crear Tarea</Text>
+                <Text style={styles.buttonText}>Agregar una nueva tarea</Text>
       </TouchableOpacity>
     </View>
   );
@@ -63,20 +62,20 @@ const styles = StyleSheet.create({
     fontFamily:'Roboto',
     fontWeight:'bold',
     // paddingTop: 2,
-    fontSize: 18,
+    fontSize: 20,
     textAlign:"center",
     alignItems: 'center',
     alignSelf: 'center',
   },
   h2: {
     color: 'black',
-    fontSize: 12,
+    fontSize: 14,
     // paddingTop: 2,
     textAlign:"center",
   },
   h3: {
     color: 'black',
-    fontSize: 12,
+    fontSize: 14,
     paddingTop: 2,
     textAlign:"left",
   },
@@ -102,17 +101,21 @@ const styles = StyleSheet.create({
     height:20,
   },
   button: {
-    backgroundColor: '#cff9fd',
-    padding: 10,
-    borderRadius: 5,
+    backgroundColor: '#477489',
+    height:90,
+    padding: 25,
+    borderRadius: 15,
     marginHorizontal: 65,
     alignItems: 'center',
     // alignSelf: 'center',
-    marginTop: 10
+    // marginTop: 10
   },
   buttonText: {
-    color: '#000000',
-    fontSize: 14
+    fontWeight:'bold',
+    alignItems: 'center',
+    alignSelf: 'center',
+    color: '#ffffff',
+    fontSize: 21
   },
   icon: {
     width: 45,

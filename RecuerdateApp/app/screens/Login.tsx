@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import { ActivityIndicator, Image, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
 
 interface RouterProps {
@@ -78,23 +78,23 @@ const styles = StyleSheet.create({
     paddingTop:5,
     color:'#cefafb',
     textAlign:'center',
-    fontSize:30
+    fontSize:32
   },
   h2:{
     fontFamily:'Roboto',
     color:'#cefafb',
     paddingLeft:65,
-    fontSize:10
+    fontSize:12
   },
   h3:{
     fontFamily:'Roboto',
     color:'#cefafb',
     textAlign:'center',
-    fontSize:9
+    fontSize:11
   },
   h4:{
     fontFamily:'Roboto',
-    fontSize:14,
+    fontSize:16,
     textAlign:'center',
     color:'#081e36'
   },
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     fontFamily:'Roboto',
     textAlign:'center',
     color:'#d0f9fd',
-    fontSize:9
+    fontSize:11
   },
   backImage: {
     backgroundColor: '#acf9ff',
@@ -153,12 +153,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#000000',
-    fontSize: 14
+    fontSize: 16
   },
   buttonText2: {
     textAlign:'center',
     color: '#d0f9fd',
-    fontSize: 10
+    fontSize: 12
   },
   logo: {
     width: 250,
