@@ -1,14 +1,22 @@
 import { NavigationProp } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { FIREBASE_AUTH } from '../../firebaseConfig';
+import { Button, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
+import { addDoc, collection } from 'firebase/firestore';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
 }
 
 const Lista = ({ navigation }: RouterProps) => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    
+  }, []);
+
+  const addTarea = async () => {
+    const doc = addDoc(collection(FIRESTORE_DB, 'Tareas'), {Titulo: 'Soy un titulo' , Descripcion: 'Soy una descripcion', Realizado: false});
+    console.log("doc: ", doc)
+  } 
 
   return (
     <View style={styles.container}>
@@ -33,9 +41,12 @@ const Lista = ({ navigation }: RouterProps) => {
             </Pressable>
           </View>
           <Text style={styles.h2}>Mis Tareas</Text>
+
         </View>
         <Text style={styles.h3}> ^ Filtrar por Fecha</Text>
       </View>
+      
+      <Button onPress={() => addTarea()} title="Agregar tarea" />
     </View>
   );
 };
