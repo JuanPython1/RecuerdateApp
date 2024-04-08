@@ -1,10 +1,9 @@
 import { NavigationProp } from '@react-navigation/native';
 import { addDoc, collection } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import {Image, Pressable, StyleSheet, Text, View, TextInput,  } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import DateTimePicker from 'react-native-date-picker';
-import { FIRESTORE_DB } from '../../firebaseConfig';
+import DateTimePicker from '@react-native-community/datetimepicker'; // Importa DateTimePicker
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -15,7 +14,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
   const [prioridad, setPrioridad] = useState('');
   const [tipoTarea, setTipoTarea] = useState('');
   const [fecha, setFecha] = useState(new Date());
-
+  const [showDatePicker, setShowDatePicker] = useState(false); // Estado para controlar la visibilidad del selector de fecha
 
   const handlePrioridadChange = (option: string) => {
     setPrioridad(option);
@@ -24,8 +23,13 @@ const CrearTarea = ({ navigation }: RouterProps) => {
   const handleTipoTareaChange = (tipo: string) => {
     setTipoTarea(tipo);
   };
-  const handleFechaChange = (nuevaFecha: Date) => {
-    setFecha(nuevaFecha);
+
+  const handleFechaChange = (event: any, nuevaFecha?: Date) => {
+    // `event` es el evento de cambio del DateTimePicker
+    if (nuevaFecha) {
+      setFecha(nuevaFecha);
+    }
+    setShowDatePicker(false); // Oculta el selector de fecha después de seleccionar una fecha
   };
 
   return (
@@ -95,7 +99,16 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           />
         </View>
         <Text style={styles.h3}>Fecha Limite</Text>
-        <DateTimePicker mode='date' date={fecha} onDateChange={handleFechaChange} />
+        <Pressable onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
+          <Text style={styles.datePickerButtonText}>{fecha.toLocaleDateString()}</Text>
+        </Pressable>
+        {showDatePicker && (
+          <DateTimePicker
+            mode='date'
+            value={fecha}
+            onChange={handleFechaChange}
+          />
+        )}
       </View>
     </View>
   );
@@ -169,5 +182,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     marginHorizontal: 65,
     marginTop: 10,
+  },
+  datePickerButton: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 65,
+    borderRadius: 20,
+    paddingVertical: 12,
+    marginTop: 5,
+  },
+  datePickerButtonText: {
+    color: 'black',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
