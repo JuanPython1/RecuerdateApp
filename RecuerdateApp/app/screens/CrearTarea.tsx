@@ -1,9 +1,8 @@
-import { NavigationProp } from '@react-navigation/native';
-import { addDoc, collection } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View, TextInput } from 'react-native';
-import { CheckBox } from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker'; // Importa DateTimePicker
+import { NavigationProp } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -148,8 +147,8 @@ const styles = StyleSheet.create({
   h3: {
     color: 'black',
     fontSize: 16,
-    paddingTop: 2,
-    paddingVertical: 5,
+    // paddingTop: 2,
+    // paddingVertical: 3,
     textAlign: 'center',
   },
   backImage: {
@@ -181,7 +180,10 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     backgroundColor: '#ffffff',
     marginHorizontal: 65,
-    marginTop: 10,
+    // marginTop: 5,
+    borderRadius:15,
+    tintColor: '#ff6700',
+    borderColor:'#ff6700'
   },
   datePickerButton: {
     backgroundColor: '#FFFFFF',
