@@ -15,29 +15,26 @@ const Registro = ({ navigation }) => {
   const singUp = async () => {
     setLoading(true);
     try {
-      // Comprobar si el nombre de usuario ya está en uso
-      const usernameQuery = query(collection(firestore, 'users'), where('username', '==', username));
-      const usernameSnapshot = await getDocs(usernameQuery);
-      if (!usernameSnapshot.empty) {
-        throw new Error('El nombre de usuario ya está en uso');
-      }
-      // Enviar correo electrónico de verificación
-      await sendEmailVerification(auth.currentUser);
-
       // Crear usuario en Firebase Auth
       const response = await createUserWithEmailAndPassword(auth, email, password);
       console.log(response);
-      alert('verifica tu correo electrónico para activar tu cuenta.');
+      
+      // Enviar correo electrónico de verificación
+      await sendEmailVerification(auth.currentUser);
+      
+      alert('Verifica tu correo electrónico para activar tu cuenta.');
       navigation.navigate('Login');
+      
       // Agregar datos a Firestore
       await addDoc(collection(firestore, 'usuarios'), { username: username, email: email });
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       alert('Registro fallido: ' + error.message);
     } finally {
       setLoading(false);
     }
   };
+  
   
 
   return (
