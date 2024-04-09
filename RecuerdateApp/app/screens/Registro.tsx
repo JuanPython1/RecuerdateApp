@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -21,17 +21,16 @@ const Registro = ({ navigation }) => {
       if (!usernameSnapshot.empty) {
         throw new Error('El nombre de usuario ya está en uso');
       }
+      // Enviar correo electrónico de verificación
+      await sendEmailVerification(auth.currentUser);
 
       // Crear usuario en Firebase Auth
       const response = await createUserWithEmailAndPassword(auth, email, password);
       console.log(response);
-      alert('¡RECUERDATE EN REVISAR TU CORREO ELECTRONICO!');
-      navigation.navigate('Login'); 
-
+      alert('verifica tu correo electrónico para activar tu cuenta.');
+      navigation.navigate('Login');
       // Agregar datos a Firestore
       await addDoc(collection(firestore, 'usuarios'), { username: username, email: email });
-
-
     } catch (error: any) {
       console.log(error);
       alert('Registro fallido: ' + error.message);
@@ -39,6 +38,7 @@ const Registro = ({ navigation }) => {
       setLoading(false);
     }
   };
+  
 
   return (
     <View style={styles.container}>
