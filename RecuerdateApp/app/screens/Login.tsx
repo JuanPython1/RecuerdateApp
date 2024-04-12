@@ -27,6 +27,10 @@ const Login = ({navigation}: RouterProps) => {
     }
   }
 
+  const goToRecuperarConstraseña = () => {
+    navigation.navigate('RecuperarContraseña');
+  }
+
   const goToRegister = () => {
     navigation.navigate('Register'); // Navega a la pantalla de registro
   };
@@ -50,6 +54,9 @@ const Login = ({navigation}: RouterProps) => {
             <>
               <TouchableOpacity style={styles.button1} onPress={singIn}>
                 <Text style={styles.buttonText}>Iniciar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button2} onPress={goToRecuperarConstraseña}>
+                <Text style={styles.buttonText2}>¿Olvidó su Contraseña?</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button2} onPress={goToRegister}>
                 <Text style={styles.buttonText2}>¡Inscribete!</Text>

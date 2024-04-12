@@ -8,6 +8,8 @@ import Login from './app/screens/Login';
 import Registro from './app/screens/Registro';
 import CrearTarea from './app/screens/CrearTarea';
 import { FIREBASE_AUTH } from './firebaseConfig';
+import RecuperarContraseña from './app/screens/RecuperContraseña';
+
 
 const Stack = createNativeStackNavigator();
 const StackInterna = createNativeStackNavigator();
@@ -40,8 +42,8 @@ export default function App() {
       <Stack.Navigator initialRouteName='Login'>
         {user ? (<Stack.Screen name='Interno' component={diseñoInterno} options={{headerShown: false}} />):
          (<Stack.Screen name='Login' component={Login} options={{headerShown: false}} />)}
-
           <Stack.Screen name='Register' component={Registro} options={{headerShown: false}} />
+          <Stack.Screen name='RecuperarContraseña' component={RecuperarContraseña} options={{headerShown: false}} />
       </Stack.Navigator>
 
 

@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     textAlign:'right',
     fontSize: 28,
+    fontWeight:'bold',
   },
   signInText: {
     fontFamily:'Roboto',
