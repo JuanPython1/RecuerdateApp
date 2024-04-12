@@ -1,30 +1,56 @@
-import { View, Text, Pressable, Image, StyleSheet } from 'react-native'
 import React from 'react'
-import { NavigationProp } from '@react-navigation/native';
+import { SafeAreaView, StyleSheet, View } from 'react-native'
+import { Avatar, Caption, Text, Title } from 'react-native-paper'
+// import { NavigationProp } from '@react-navigation/native'
 
-interface RouterProps {
-  navigation: NavigationProp<any, any>;
-}
-
-
-const Perfil = ({navigation}: RouterProps ) => {
-
-
+const ProfileScreem =() => {
   return (
-    <View style={styles.container}>
-      <Text>Perfil</Text>
-      <Pressable
-              onPress={() => navigation.navigate('Mi tareas')}
-              style={({ pressed }) => {
-                return { opacity: pressed ? 0 : 1 };
-              }}>
-              <Image style={styles.icon} source={require('../../assets/icono.png')} />
-            </Pressable>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={StylePropertyMap.userInfoSection}>
+        <View>
+          <Avatar.Image
+          source={{uri:'RecuerdateApp/assets/perfil.png'}} size={80}
+          />
+        </View>
+        <View>
+          <Title style={styles.h1}>John Doe</Title>
+          <Caption style={styles.h1}>John Doe</Caption>
+          <Text style={styles.h1}>John Doe</Text>
+        </View>
+      </View>
+    </SafeAreaView>
   )
 }
+// interface RouterProps {
+//   navigation: NavigationProp<any, any>;
+// }
+// export default function InfoUser({ user }){
+//   console.log
+//   return(
+//     <View>
+//       <Text>InfoUser...</Text>
+//     </View>
+//   )
+// }
 
-export default Perfil
+// const Perfil = ({navigation}: RouterProps ) => {
+
+
+//   return (
+//     <View style={styles.container}>
+//       <Text>Perfil</Text>
+//       <Pressable
+//               onPress={() => navigation.navigate('Mi tareas')}
+//               style={({ pressed }) => {
+//                 return { opacity: pressed ? 0 : 1 };
+//               }}>
+//               <Image style={styles.icon} source={require('../../assets/icono.png')} />
+//             </Pressable>
+//     </View>
+//   )
+// }
+
+// export default Perfil
 
 const styles = StyleSheet.create({
   container: {
@@ -32,11 +58,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#acf9ff',
     color: '#ffffff',
-  },  
+  },
+  h1: {
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    fontSize: 20,
+    textAlign: 'center',
+  },
   icon: {
     width: 45,
     height: 45,
     marginTop:20
     // resizeMode: 'contain',
+  },
+  whiteBox: {
+    backgroundColor: '#ffffff',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
 })
