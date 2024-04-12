@@ -1,14 +1,20 @@
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { NavigationProp } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Modal, Pressable } from 'react-native';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
 
-const Registro = ({ navigation }) => {
+interface RouterProps {
+  navigation: NavigationProp<any, any>;
+}
+
+const Registro = ({navigation}: RouterProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false); // Estado para el modal de verificación
   const auth = FIREBASE_AUTH;
   const firestore = FIRESTORE_DB;
 
@@ -16,29 +22,65 @@ const Registro = ({ navigation }) => {
     setLoading(true);
     try {
       // Crear usuario en Firebase Auth
-      const response = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(response);
-      
-      // Enviar correo electrónico de verificación
-      await sendEmailVerification(auth.currentUser);
-      
-      alert('Verifica tu correo electrónico para activar tu cuenta.');
-      navigation.navigate('Login');
-      
-      // Agregar datos a Firestore
-      await addDoc(collection(firestore, 'usuarios'), { username: username, email: email });
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(async (response) => {
+          console.log(response);
+          // Verificar usuario con el correo
+          await sendEmailVerification(auth.currentUser);
+          setModalVisible(true); // Mostrar el modal de verificación
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Registro fallido: ' + error.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error) {
       console.log(error);
       alert('Registro fallido: ' + error.message);
-    } finally {
       setLoading(false);
     }
   };
-  
-  
+
+  const activateAccount = async () => {
+    try {
+      // Guardar los datos en Firestore
+      await addDoc(collection(firestore, 'usuarios'), { username: username, email: email });
+      navigation.navigate('Interno'); // Redirigir a la navegación de inicio de sesión
+    } catch (error) {
+      console.log(error);
+      alert('Error al guardar los datos: ' + error.message);
+    }
+  };
 
   return (
     <View style={styles.container}>
+      {/* Modal de verificación */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Verifica tu correo electrónico para activar tu cuenta.</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                activateAccount(); // Llamar a la función para activar la cuenta y guardar los datos en Firestore
+              }}
+            >
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <View style={styles.signInContainer}>
         <Text style={styles.h1}>Crear una nueva cuenta</Text>
         <Text style={styles.signInText}>¿Ya estás registrado? Inicia sesión <Text style={styles.signInLink} onPress={() => navigation.navigate('Login')}>aquí</Text>.</Text>
@@ -138,6 +180,40 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#ffffff',
     fontSize: 14,
+  },
+  // Estilos para el modal
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center'
   }
 });
 
