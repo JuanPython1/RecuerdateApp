@@ -2,13 +2,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import Perfil from './app/screens/Perfil';
+import CrearTarea from './app/screens/CrearTarea';
 import Lista from './app/screens/Lista';
 import Login from './app/screens/Login';
-import Registro from './app/screens/Registro';
-import CrearTarea from './app/screens/CrearTarea';
-import { FIREBASE_AUTH } from './firebaseConfig';
+import Perfil from './app/screens/Perfil';
 import RecuperarContraseña from './app/screens/RecuperContraseña';
+import Registro from './app/screens/Registro';
+import { FIREBASE_AUTH } from './firebaseConfig';
 
 
 const Stack = createNativeStackNavigator();
@@ -44,6 +44,7 @@ export default function App() {
          (<Stack.Screen name='Login' component={Login} options={{headerShown: false}} />)}
           <Stack.Screen name='Register' component={Registro} options={{headerShown: false}} />
           <Stack.Screen name='RecuperarContraseña' component={RecuperarContraseña} options={{headerShown: false}} />
+      <Stack.Screen name="Profile" component={Perfil} options={{ title: 'Perfil' }} />
       </Stack.Navigator>
 
 

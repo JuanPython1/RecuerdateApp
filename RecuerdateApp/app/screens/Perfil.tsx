@@ -1,79 +1,64 @@
-import React from 'react'
-import { SafeAreaView, StyleSheet, View } from 'react-native'
-import { Avatar, Caption, Text, Title } from 'react-native-paper'
-// import { NavigationProp } from '@react-navigation/native'
+import auth from '@react-native-firebase/auth';
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
-const ProfileScreem =() => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={StylePropertyMap.userInfoSection}>
-        <View>
-          <Avatar.Image
-          source={{uri:'RecuerdateApp/assets/perfil.png'}} size={80}
-          />
-        </View>
-        <View>
-          <Title style={styles.h1}>John Doe</Title>
-          <Caption style={styles.h1}>John Doe</Caption>
-          <Text style={styles.h1}>John Doe</Text>
-        </View>
+const ProfileScreen = () => {
+  const [user, setUser] = useState<any | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (!user) {
+    return (
+      <View style={styles.container}>
+        <Text>No hay usuario logueado.</Text>
       </View>
-    </SafeAreaView>
-  )
-}
-// interface RouterProps {
-//   navigation: NavigationProp<any, any>;
-// }
-// export default function InfoUser({ user }){
-//   console.log
-//   return(
-//     <View>
-//       <Text>InfoUser...</Text>
-//     </View>
-//   )
-// }
+    );
+  }
 
-// const Perfil = ({navigation}: RouterProps ) => {
-
-
-//   return (
-//     <View style={styles.container}>
-//       <Text>Perfil</Text>
-//       <Pressable
-//               onPress={() => navigation.navigate('Mi tareas')}
-//               style={({ pressed }) => {
-//                 return { opacity: pressed ? 0 : 1 };
-//               }}>
-//               <Image style={styles.icon} source={require('../../assets/icono.png')} />
-//             </Pressable>
-//     </View>
-//   )
-// }
-
-// export default Perfil
+  return (
+    <View style={styles.container}>
+      <FastImage
+        style={styles.avatar}
+        source={{
+          uri: user.photoURL || 'https://via.placeholder.com/150',
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+      <Text style={styles.username}>{user.displayName}</Text>
+      <Text style={styles.email}>{user.email}</Text>
+      <Button title="Cerrar sesión" onPress={() => auth().signOut()} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#acf9ff',
-    color: '#ffffff',
+    alignItems: 'center',
   },
-  h1: {
-    fontFamily: 'Roboto',
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    marginBottom: 20,
+  },
+  username: {
+    fontSize: 24,
     fontWeight: 'bold',
-    fontSize: 20,
-    textAlign: 'center',
+    marginBottom: 10,
   },
-  icon: {
-    width: 45,
-    height: 45,
-    marginTop:20
-    // resizeMode: 'contain',
+  email: {
+    fontSize: 18,
+    marginBottom: 20,
   },
-  whiteBox: {
-    backgroundColor: '#ffffff',
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-})
+});
+
+export default ProfileScreen;
