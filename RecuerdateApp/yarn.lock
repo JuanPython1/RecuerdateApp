@@ -2314,18 +2314,18 @@
   dependencies:
     invariant "^2.2.4"
 
-"@react-native-firebase/app@^19.2.1":
-  version "19.2.1"
-  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-19.2.1.tgz"
-  integrity sha512-3oKJEmB4qhW8MiwP4nR4ddTkbXlvQqcYhZmIUoLPb3/Zc+3hUxjKIrsaKNqxkIfRhMMXDPfPVF1IJj/S4l30+g==
+"@react-native-firebase/app@^19.2.2":
+  version "19.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.2.2.tgz#71db0afdfaa41fff1fc75ce9f5c249eeeec393e3"
+  integrity sha512-yucIZT/n567XH+gU8Qf/Z8Awtrc0dadu0LYDJU/dq228DwoQa8xyCoDqXqVM2Ppj9R8csQ+ga4VdMYBSHblYQw==
   dependencies:
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-firebase/auth@^19.2.1":
-  version "19.2.1"
-  resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-19.2.1.tgz"
-  integrity sha512-vvS2fQ2ZIdzEPXKODnO2ioLiigoKpGKDNoqtw0ZECAjL/78FvqdRm+QtP23yWfkIFbN/2R2hsAFJjJBf2ZP0sQ==
+"@react-native-firebase/auth@^19.2.2":
+  version "19.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-19.2.2.tgz#ec44f29c8a4427048db19a1c61df1415139d74fe"
+  integrity sha512-2TbbieNAmZSR3wqJZdQyFAT4vISESfvB3I3j/ll+3SS91fV2h0/H4xnBapoOEeXBGxioBGKXBOP3C4ySRXNV6g==
   dependencies:
     plist "^3.1.0"
 
@@ -2498,7 +2498,7 @@
 
 "@react-navigation/native-stack@^6.9.26":
   version "6.9.26"
-  resolved "https://registry.npmjs.org/@react-navigation/native-stack/-/native-stack-6.9.26.tgz"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-6.9.26.tgz#90facf7783c9927f094bc9f01c613af75b6c241e"
   integrity sha512-++dueQ+FDj2XkZ902DVrK79ub1vp19nSdAZWxKRgd6+Bc0Niiesua6rMCqymYOVaYh+dagwkA9r00bpt/U5WLw==
   dependencies:
     "@react-navigation/elements" "^1.3.30"
@@ -2506,7 +2506,7 @@
 
 "@react-navigation/native@^6.1.17":
   version "6.1.17"
-  resolved "https://registry.npmjs.org/@react-navigation/native/-/native-6.1.17.tgz"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-6.1.17.tgz#439f15a99809d26ea4682d2a3766081cf2ca31cf"
   integrity sha512-mer3OvfwWOHoUSMJyLa4vnBH3zpFmCwuzrBPlw7feXklurr/ZDiLjLxUScOot6jLRMz/67GyilEYMmP99LL0RQ==
   dependencies:
     "@react-navigation/core" "^6.4.16"
@@ -5968,7 +5968,7 @@ react-native-elements@^3.4.3:
 
 react-native-fast-image@^8.6.3:
   version "8.6.3"
-  resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz#6edc3f9190092a909d636d93eecbcc54a8822255"
   integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
 
 react-native-image-picker@^7.1.2:

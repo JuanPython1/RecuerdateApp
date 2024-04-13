@@ -1,39 +1,39 @@
-import auth from '@react-native-firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FIREBASE_AUTH } from '../../firebaseConfig';
 
-const ProfileScreen = () => {
-  const [user, setUser] = useState<any | null>(null);
+const Perfil = ({ navigation }: any) => {
+  const [userData, setUserData] = useState<any | null>(null);
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((user) => {
+      if (user) {
+        setUserData(user);
+      } else {
+        setUserData(null);
+      }
     });
 
     return () => unsubscribe();
   }, []);
 
-  if (!user) {
-    return (
-      <View style={styles.container}>
-        <Text>No hay usuario logueado.</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
-      <FastImage
-        style={styles.avatar}
-        source={{
-          uri: user.photoURL || 'https://via.placeholder.com/150',
-        }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-      <Text style={styles.username}>{user.displayName}</Text>
-      <Text style={styles.email}>{user.email}</Text>
-      <Button title="Cerrar sesión" onPress={() => auth().signOut()} />
+      <Text style={styles.title}>Perfil</Text>
+      <Pressable
+              onPress={() => navigation.goBack()}
+              style={({ pressed }) => {
+                return { opacity: pressed ? 0 : 1 };
+              }}>
+              <Image style={styles.icon} source={require('../../assets/icono.png')} />
+            </Pressable>
+      {userData && (
+        <>
+          <Text style={styles.userInfo}>Nombre de usuario: {userData.username}</Text>
+          <Text style={styles.userInfo}>Correo electrónico: {userData.email}</Text>
+        </>
+      )}
+      
     </View>
   );
 };
@@ -44,21 +44,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  avatar: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+  title: {
+    fontSize: 24,
     marginBottom: 20,
   },
-  username: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  userInfo: {
+    fontSize: 18,
     marginBottom: 10,
   },
-  email: {
-    fontSize: 18,
-    marginBottom: 20,
+  icon: {
+    width: 45,
+    height: 45,
+    marginTop: 20,
   },
 });
 
-export default ProfileScreen;
+export default Perfil;

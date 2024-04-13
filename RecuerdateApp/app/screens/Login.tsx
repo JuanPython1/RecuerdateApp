@@ -19,6 +19,8 @@ const Login = ({navigation}: RouterProps) => {
     try{
       const response = await signInWithEmailAndPassword(auth, email, password);
       console.log(response);
+    navigation.navigate('Perfil', { email: response.user.email });
+
     } catch (error: any) {
       console.log(error);
       alert('Iniciar Sesión fallido: '+ error.message);

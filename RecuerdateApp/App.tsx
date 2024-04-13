@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import CrearTarea from './app/screens/CrearTarea';
 import Lista from './app/screens/Lista';
 import Login from './app/screens/Login';
-import Perfil from './app/screens/Perfil';
+import ProfileScreen from './app/screens/Perfil';
 import RecuperarContraseña from './app/screens/RecuperContraseña';
 import Registro from './app/screens/Registro';
 import { FIREBASE_AUTH } from './firebaseConfig';
@@ -17,9 +17,9 @@ const StackInterna = createNativeStackNavigator();
 function diseñoInterno() {
   return(
     <StackInterna.Navigator>
-       <StackInterna.Screen name='Mi tareas' component={Lista} options={{headerShown:false}}/>
-       <StackInterna.Screen name='Perfil' component={Perfil} options={{headerShown: false}} />
-       <StackInterna.Screen name='CrearTarea' component={CrearTarea} options={{headerShown: false}}/>
+        <StackInterna.Screen name='Mi tareas' component={Lista} options={{title: 'Mis tareas', headerShown:false}}/>
+        <StackInterna.Screen name='CrearTarea' component={CrearTarea} options={{headerShown: false}}/>
+        <StackInterna.Screen name='Perfil' component={ProfileScreen} options={{ title: 'Perfil', headerShown: false }} />  
     </StackInterna.Navigator>
   )
 
@@ -44,7 +44,6 @@ export default function App() {
          (<Stack.Screen name='Login' component={Login} options={{headerShown: false}} />)}
           <Stack.Screen name='Register' component={Registro} options={{headerShown: false}} />
           <Stack.Screen name='RecuperarContraseña' component={RecuperarContraseña} options={{headerShown: false}} />
-      <Stack.Screen name="Profile" component={Perfil} options={{ title: 'Perfil' }} />
       </Stack.Navigator>
 
 

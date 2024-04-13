@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 10,
+    paddingTop: 50,
     paddingBottom: 10,
   },
   titleContainer: {
