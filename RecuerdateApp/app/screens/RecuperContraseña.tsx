@@ -1,8 +1,8 @@
+import { NavigationProp } from '@react-navigation/native';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import React, { useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, TextInput, Modal  } from 'react-native';
+import { Image, KeyboardAvoidingView, Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH } from '../../firebaseConfig';
-import { NavigationProp } from '@react-navigation/native';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
       h1: {
         fontFamily: 'Roboto',
         color: '#000000',
-        textAlign:'right',
-        fontSize: 35,
+        textAlign:'center',
+        fontSize: 28,
         fontWeight:'bold',
       },
       h2:{
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         borderRadius: 20,
         padding: 10,
-        backgroundColor: '#888'
+        backgroundColor: '#8f8e8e'
       },
       button: {
         backgroundColor: '#000000',
@@ -146,10 +146,12 @@ const styles = StyleSheet.create({
         marginTop: 10
       },
       buttonText: {
+        fontWeight:'bold',
         color: '#ffffff',
         fontSize: 14,
     },
     icon: {
+      position:'absolute',
         width: 45,
         height: 45,
         marginTop:20,
@@ -160,9 +162,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: '82%',
         width: '100%',
-        paddingHorizontal: 100,
-        top: 16, // Ajusta la posición vertical según tus necesidades
-        left: 16, // Ajusta la posición horizontal según tus necesidades
+        paddingHorizontal: 10,
+        top: 10, // Ajusta la posición vertical según tus necesidades
+        // left: 16, // Ajusta la posición horizontal según tus necesidades
       },
       recuperar: {
         fontSize: 10,
