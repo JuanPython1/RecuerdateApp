@@ -1,49 +1,57 @@
-import { NavigationProp } from '@react-navigation/native';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import React, { useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, TextInput, ActivityIndicator } from 'react-native';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, TextInput, Modal  } from 'react-native';
+import { FIREBASE_AUTH } from '../../firebaseConfig';
+import { NavigationProp } from '@react-navigation/native';
 
 interface RouterProps {
-    navigation: NavigationProp<any, any>;
-  }
+  navigation: NavigationProp<any, any>;
+}
+
+
 
 const RecuperContraseña = ({navigation}: RouterProps) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false); // Estado para el modal de verificación
   const auth = FIREBASE_AUTH;
-  const firestore = FIRESTORE_DB;
-
+ 
+  //recuperar contraseña
   const recuperar = async () => {
-    setLoading(true);
     try {
-      // Crear usuario en Firebase Auth
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(async (response) => {
-          console.log(response);
-          // Verificar usuario con el correo
-          await sendEmailVerification(auth.currentUser);
-          setModalVisible(true); // Mostrar el modal de verificación
-        })
-        .catch((error) => {
-          console.log(error);
-          alert('Registro fallido: ' + error.message);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      // Envía un correo de recuperación al email proporcionado
+      await sendPasswordResetEmail(auth,email);
+      setModalVisible(true); // Mostrar el modal de verificación
+      console.log('Correo de recuperación enviado');
     } catch (error) {
-      console.log(error);
-      alert('Registro fallido: ' + error.message);
-      setLoading(false);
+      console.error('Error al enviar el correo de recuperación:', error.message);
     }
   };
 
   return (
     <View style={styles.container}>
+      {/* Modal de verificación */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Verifica tu correo electrónico para recuperar tu contraseña.</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
         <View style={styles.signInContainer1}>
         <Pressable
               onPress={() => navigation.navigate('Login')}
@@ -59,23 +67,10 @@ const RecuperContraseña = ({navigation}: RouterProps) => {
          <View style={styles.recuperar}>
          <KeyboardAvoidingView behavior='padding'>
          <Text style={styles.h2}>CORREO</Text>
-         <TextInput value={email} style={styles.input} placeholder="hello@gmail.com" autoCapitalize="none" onChangeText={(text) => setEmail(text)} />
-         <Text style={styles.h2}>CONFIRMAR CORREO</Text>
-         <TextInput value={email} style={styles.input} placeholder="hello@gmail.com" autoCapitalize="none" onChangeText={(text) => setEmail(text)} />
-         <Text style={styles.h2}>CONTRASEÑA NUEVA</Text>
-         <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder="***********" autoCapitalize="none" onChangeText={(text) => setPassword(text)} />
-         <Text style={styles.h2}>CONFIRMAR CONTRASEÑA NUEVA</Text>
-         <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder="***********" autoCapitalize="none" onChangeText={(text) => setPassword(text)} />
-    
-          {loading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
-          ) : (
-            <>
+         <TextInput value={email} style={styles.input} placeholder="hello@gmail.com" autoCapitalize="none" onChangeText={(text) => setEmail(text)} />    
               <TouchableOpacity style={styles.button} onPress={recuperar}>
                 <Text style={styles.buttonText}>Enviar</Text>
-              </TouchableOpacity>
-            </>
-          )}
+              </TouchableOpacity>          
          </KeyboardAvoidingView>
          
         </View>
@@ -173,6 +168,40 @@ const styles = StyleSheet.create({
         fontSize: 10,
         fontWeight: 'bold',
         marginTop: 30, // Ajusta este valor para mover el texto hacia abajo
-      }
+      },
+  // Estilos para el modal
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center'
+  }
 });
   

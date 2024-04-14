@@ -1,9 +1,10 @@
 import { NavigationProp } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Modal, Pressable } from 'react-native';
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
+
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
