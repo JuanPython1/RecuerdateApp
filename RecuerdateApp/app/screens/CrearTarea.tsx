@@ -1,4 +1,4 @@
-import DateTimePicker from '@react-native-community/datetimepicker'; // Importa DateTimePicker
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { NavigationProp } from '@react-navigation/native';
 import { addDoc, collection } from 'firebase/firestore';
 import React, { useState } from 'react';
@@ -12,26 +12,34 @@ interface RouterProps {
 
 const CrearTarea = ({ navigation }: RouterProps) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalAvisoVisible, setModalAvisoVisible] = useState(false); // Estado para controlar la visibilidad del modal de aviso
   const [nombreTarea, setNombreTarea] = useState('');
   const [prioridad, setPrioridad] = useState('');
   const [tipoTarea, setTipoTarea] = useState('');
   const [fecha, setFecha] = useState(new Date());
   const [descripcion, setDescripcion] = useState('');
-  const [showDatePicker, setShowDatePicker] = useState(false); // Estado para controlar la visibilidad del selector de fecha
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const AgregarTarea = async () => {
-    try {
-      // Guardar los datos en Firestore
-      await addDoc(collection(FIRESTORE_DB, 'Tareas'), {Nombre: nombreTarea, Prioridad: prioridad, TipoTarea: tipoTarea, Fecha: fecha, Descripcion: descripcion});
-      
-       // Redirigir a la navegación de inicio de sesión
-    } catch (error) {
-      console.log(error);
-      alert('Error al guardar los datos: ' + error.message);
+    if (!nombreTarea || !prioridad || !tipoTarea || !fecha || !descripcion) {
+      // Si algún campo está vacío, muestra el modal de aviso y no guarda la tarea
+      setModalAvisoVisible(true);
+    } else {
+      try {
+        await addDoc(collection(FIRESTORE_DB, 'Tareas'), {
+          Nombre: nombreTarea,
+          Prioridad: prioridad,
+          TipoTarea: tipoTarea,
+          Fecha: fecha,
+          Descripcion: descripcion,
+        });
+        setModalVisible(true); // Muestra el modal de tarea creada
+      } catch (error) {
+        console.log(error);
+        alert('Error al guardar los datos: ' + error.message);
+      }
     }
-    
-  }
-
+  };
 
   const handlePrioridadChange = (option: string) => {
     setPrioridad(option);
@@ -42,45 +50,53 @@ const CrearTarea = ({ navigation }: RouterProps) => {
   };
 
   const handleFechaChange = (event: any, nuevaFecha?: Date) => {
-    // `event` es el evento de cambio del DateTimePicker
     if (nuevaFecha) {
       setFecha(nuevaFecha);
     }
-    setShowDatePicker(false); // Oculta el selector de fecha después de seleccionar una fecha
-  };
-
-  const handleModalAbierto = () => {
-    setModalVisible(true); // Cierra el modal
-    AgregarTarea();
+    setShowDatePicker(false);
   };
 
   const handleModalCerrado = () => {
+    setModalVisible(false);
     navigation.navigate('Mi tareas');
   };
 
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Tarea Creada</Text>
+            <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalCerrado}>
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
 
-    <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>Tarea Creada</Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={handleModalCerrado}
-                >
-                  <Text style={styles.textStyle}>Cerrar</Text>
-                </Pressable>
-              </View>
-            </View> 
-          </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalAvisoVisible}
+        onRequestClose={() => setModalAvisoVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalAvisoView}>
+            <Text style={styles.modalText}>Debe llenar todos los campos</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalAvisoVisible(false)}
+            >
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
 
       <View style={styles.backImage}>
         <View style={styles.whiteBox}>
@@ -158,20 +174,20 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           />
         )}
 
-      <Text style={styles.h3}>Descripcion</Text>
-              <TextInput
-                value={descripcion}
-                onChangeText={setDescripcion}
-                style={styles.input}
-                placeholder='Descripción...'
-              />
+        <Text style={styles.h3}>Descripcion</Text>
+        <TextInput
+          value={descripcion}
+          onChangeText={setDescripcion}
+          style={styles.input}
+          placeholder='Descripción...'
+        />
 
-        <TouchableOpacity style={styles.button} onPress={handleModalAbierto}>
-            <Text style={styles.buttonText}>CONFIRMAR TAREA</Text>
+        <TouchableOpacity style={styles.button} onPress={AgregarTarea}>
+          <Text style={styles.buttonText}>CONFIRMAR TAREA</Text>
         </TouchableOpacity>
 
       </View>
-      
+
     </View>
   );
 };
@@ -210,8 +226,6 @@ const styles = StyleSheet.create({
   h3: {
     color: 'black',
     fontSize: 16,
-    // paddingTop: 2,
-    // paddingVertical: 3,
     textAlign: 'center',
   },
   backImage: {
@@ -243,10 +257,9 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     backgroundColor: '#ffffff',
     marginHorizontal: 65,
-    // marginTop: 5,
-    borderRadius:15,
+    borderRadius: 15,
     tintColor: '#ff6700',
-    borderColor:'#ff6700'
+    borderColor: '#ff6700',
   },
   datePickerButton: {
     backgroundColor: '#FFFFFF',
@@ -277,7 +290,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
@@ -288,11 +301,25 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
+  },
+  modalAvisoView: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonClose: {
     backgroundColor: '#2196F3',
@@ -300,10 +327,10 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });
