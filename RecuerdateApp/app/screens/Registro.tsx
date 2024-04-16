@@ -13,11 +13,21 @@ interface RouterProps {
 const Registro = ({navigation}: RouterProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [ConfirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false); // Estado para el modal de verificación
   const auth = FIREBASE_AUTH;
   const firestore = FIRESTORE_DB;
+
+  const validacionContraseña =  () => {
+    if(password !== ConfirmPassword){
+     alert('Las contraseñas no coinciden. Por favor, ingresalas de nuevo.')
+    }
+    else{
+     singUp()
+    }
+  }
 
   const singUp = async () => {
     setLoading(true);
@@ -54,6 +64,9 @@ const Registro = ({navigation}: RouterProps) => {
       alert('Error al guardar los datos: ' + error.message);
     }
   };
+  
+    
+  
 
   return (
     <View style={styles.container}>
@@ -94,12 +107,14 @@ const Registro = ({navigation}: RouterProps) => {
           <TextInput value={email} style={styles.input} placeholder="Email" autoCapitalize="none" onChangeText={(text) => setEmail(text)} />
           <Text style={styles.h2}>CONTRASEÑA</Text>
           <TextInput secureTextEntry={true} value={password} style={styles.input} placeholder="Password" autoCapitalize="none" onChangeText={(text) => setPassword(text)} />
+          <Text style={styles.h2}>CONFIRMAR CONTRASEÑA</Text>
+          <TextInput secureTextEntry={true} value={ConfirmPassword} style={styles.input} placeholder="Confirmar Password" autoCapitalize="none" onChangeText={(text) => setConfirmPassword(text)} />
 
           {loading ? (
             <ActivityIndicator size="large" color="#0000ff" />
           ) : (
             <>
-              <TouchableOpacity style={styles.button} onPress={singUp}>
+              <TouchableOpacity style={styles.button} onPress={validacionContraseña}>
                 <Text style={styles.buttonText}>Únete</Text>
               </TouchableOpacity>
             </>
