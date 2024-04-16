@@ -19,44 +19,114 @@ const Perfil = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Perfil</Text>
-      <Pressable
+      <View style={styles.backImage}>
+        <View style={styles.whiteBox}>
+          <View style={styles.titleContainer}>
+          <Pressable
               onPress={() => navigation.goBack()}
               style={({ pressed }) => {
                 return { opacity: pressed ? 0 : 1 };
               }}>
               <Image style={styles.icon} source={require('../../assets/icono.png')} />
             </Pressable>
+            <Text style={styles.h1}>RecuerDate</Text>
+            
+              <Image style={styles.icon2} source={require('../../assets/perfil.png')} />
+            
+          </View>
+          <Text style={styles.h2}>Mi Perfil</Text>
+
+        </View>
+          <View style={styles.userInfo}>
+          <Image style={styles.icon3} source={require('../../assets/perfil.png')} />
       {userData && (
         <>
-          <Text style={styles.userInfo}>Nombre de usuario: {userData.username}</Text>
-          <Text style={styles.userInfo}>Correo electrónico: {userData.email}</Text>
+          <Text >Nombre de usuario {userData.user}</Text>
+          <Text >Correo electrónico {userData.email}</Text>
         </>
-      )}
+      )}</View>
+      </View>
       
     </View>
   );
 };
+
+export default Perfil;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'#ffffff'
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // paddingHorizontal: 15,
+    marginTop: 5,
+    height:20,
+  },
+  h1: {
+    fontFamily:'Roboto',
+    fontWeight:'bold',
+    // paddingTop: 2,
+    fontSize: 20,
+    textAlign:"center",
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  h2: {
+    color: 'black',
+    fontSize: 14,
+    // paddingTop: 2,
+    textAlign:"center",
+  },
+  h3: {
+    color: 'black',
+    fontSize: 14,
+    paddingTop: 2,
+    textAlign:"left",
   },
   userInfo: {
-    fontSize: 18,
-    marginBottom: 10,
+    marginVertical:5,
+    flexDirection:'column',
+    // textAlign:'center',
+    alignItems:'center',
+    padding:10,
+    fontSize: 15,
+    marginHorizontal: 65,
   },
   icon: {
     width: 45,
     height: 45,
-    marginTop: 20,
+    marginTop: 10,
+    marginHorizontal:10
+  },
+  icon2: {
+    width: 45,
+    height: 45,
+    marginTop: 10,
+    marginHorizontal:15,
+    opacity:0
+  },
+  icon3: {
+    backgroundColor:'#ff6b5b',
+    width: 180,
+    height: 180,
+    marginTop: 10,
+    marginHorizontal:15
+  },
+  backImage: {
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+  },
+  whiteBox: {
+    padding:10,
+    backgroundColor: '#ff6b5b',
+    width:'100%',
   },
 });
 
-export default Perfil;
