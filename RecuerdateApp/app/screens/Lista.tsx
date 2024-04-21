@@ -1,8 +1,8 @@
 import { NavigationProp } from '@react-navigation/native';
+import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
-import { collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
  // Importa la función de formato de fecha
 
 interface RouterProps {
@@ -11,6 +11,7 @@ interface RouterProps {
 
 const Lista = ({ navigation }: RouterProps) => {
   const [tareas, setTareas] = useState([]);
+  const [tareaSeleccionada, setTareaSeleccionada] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(FIRESTORE_DB, 'Tareas'), (snapshot) => {
@@ -61,7 +62,7 @@ const Lista = ({ navigation }: RouterProps) => {
           <Text style={styles.h2}>Mis Tareas</Text>
         </View>
         <Text style={styles.h3}> ^ Filtrar por Fecha</Text>
-      </View>
+      
 
       <View>
         <Text style={styles.h2}>Tareas</Text>
@@ -69,10 +70,17 @@ const Lista = ({ navigation }: RouterProps) => {
           {tareas.map((tarea) => (
             <View key={tarea.id} style={styles.tareaItem}>
               <Text>Titulo: {tarea.Nombre}</Text>
-              <Text>{tarea.Descripcion}</Text>
-              <Text>{tarea.Prioridad}</Text>
-              <Text>{tarea.TipoTarea}</Text>
-              
+              {tareaSeleccionada === tarea.id && (
+                <>
+                <Text>Descripción: {tarea.Descripcion}</Text>
+                <Text>Prioridad: {tarea.Prioridad}</Text>
+                <Text>Tipo de Tarea: {tarea.TipoTarea}</Text>
+              </>
+              )}
+              <Pressable onPress={() => setTareaSeleccionada(tarea.id)}>
+                
+              <Text style={{ color: '#000000' }}>Ver Detalles</Text>
+              </Pressable>
               <Pressable
                 onLongPress={() => eliminarTarea(tarea.id)} 
                 style={({ pressed }) => ({
@@ -92,6 +100,7 @@ const Lista = ({ navigation }: RouterProps) => {
         </TouchableOpacity>
 
       </View>
+    </View>
     </View>
   );
 };
@@ -166,17 +175,20 @@ const styles = StyleSheet.create({
     marginTop:20
   },
   tareasContainer: {
-    backgroundColor: '#ffffff',
-    padding: 10,
-    margin: 10,
+    marginHorizontal: 65,
+    flexDirection:'column',
+    // backgroundColor: '#ffffff',
+    // padding: 10,
+    // margin: 10,
     borderRadius: 5,
   },
   tareaItem: {
+    // marginHorizontal: 65,
     backgroundColor: '#fff',
     padding: 10,
     margin: 5,
-    borderRadius: 5,
-    flexDirection: 'row',
+    borderRadius: 15,
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
