@@ -162,7 +162,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
             onPress={() => handleTipoTareaChange('Grupal')}
           />
         </View>
-        <Text style={styles.h3}>Fecha Limite</Text>
+        <Text style={styles.h3}>Fecha Límite</Text>
         <Pressable onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
           <Text style={styles.datePickerButtonText}>{fecha.toLocaleDateString()}</Text>
         </Pressable>
@@ -174,7 +174,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           />
         )}
 
-        <Text style={styles.h3}>Descripcion</Text>
+        <Text style={styles.h3}>Descripción</Text>
         <TextInput
           value={descripcion}
           onChangeText={setDescripcion}
@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     textAlign: 'center',
+    fontWeight: 'bold'
   },
   backImage: {
     backgroundColor: '#477489',
@@ -274,11 +275,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   buttonText: {
-    color: '#ffffff',
+    color: '#e75455',
+    fontWeight: 'bold',
     fontSize: 14,
   },
   button: {
-    backgroundColor: '#000000',
+    backgroundColor: '#a2f1f8',
     padding: 10,
     borderRadius: 5,
     marginHorizontal: 65,

@@ -69,24 +69,29 @@ const Lista = ({ navigation }: RouterProps) => {
         <View style={styles.tareasContainer}>
           {tareas.map((tarea) => (
             <View key={tarea.id} style={styles.tareaItem}>
-              <Text>Titulo: {tarea.Nombre}</Text>
+              <Text style={styles.h4}>Titulo: {tarea.Nombre}</Text>
               {tareaSeleccionada === tarea.id && (
                 <>
-                <Text>Descripción: {tarea.Descripcion}</Text>
-                <Text>Prioridad: {tarea.Prioridad}</Text>
-                <Text>Tipo de Tarea: {tarea.TipoTarea}</Text>
+                <Text style={styles.h4} >Descripción: {tarea.Descripcion}</Text>
+                <Text style={styles.h4}>Prioridad: {tarea.Prioridad}</Text>
+                <Text style={styles.h4}>Tipo de Tarea: {tarea.TipoTarea}</Text>
               </>
               )}
-              <Pressable onPress={() => setTareaSeleccionada(tarea.id)}>
+              <Pressable onPress={() => setTareaSeleccionada(tarea.id)} style={({pressed}) => ({
+                backgroundColor: pressed ? '#ffffff' : '#111d35',
+                padding: 10,
+                borderRadius: 360,
+                marginTop: 5
+              })} > 
                 
-              <Text style={{ color: '#000000' }}>Ver Detalles</Text>
+              <Text style={{ color: '#ffffff' }}>Ver Detalles</Text>
               </Pressable>
               <Pressable
                 onLongPress={() => eliminarTarea(tarea.id)} 
                 style={({ pressed }) => ({
-                  backgroundColor: pressed ? '#f00' : '#ccc', 
+                  backgroundColor: pressed ? '#000000' : '#e75455', 
                   padding: 10,
-                  borderRadius: 5,
+                  borderRadius: 360,
                   marginTop: 5,
                 })}>
                 <Text style={{ color: '#fff' }}>Eliminar</Text>
@@ -132,6 +137,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     paddingTop: 2,
     textAlign:"left",
+  },
+  h4:{
+    fontSize: 19,
+    textAlign: 'center'
   },
   backImage: {
     backgroundColor: '#acf9ff',
