@@ -36,7 +36,10 @@ const Lista = ({ navigation }: RouterProps) => {
       console.error('Error al eliminar la tarea:', error);
     }
   };
-
+  const EditarTarea = (id) => {
+    // Navegar a la pantalla de edición con el ID de la tarea seleccionada
+    navigation.navigate('EditarTarea', { tareaId: id });
+  };
 
   return (
     <View style={styles.container}>
@@ -85,6 +88,15 @@ const Lista = ({ navigation }: RouterProps) => {
               })} > 
                 
               <Text style={{ color: '#ffffff' }}>Ver Detalles</Text>
+              </Pressable>
+              <Pressable onPress={() => EditarTarea(tarea.id)} style={({pressed}) => ({
+                backgroundColor: pressed ? '#ffffff' : '#111d35',
+                padding: 10,
+                borderRadius: 360,
+                marginTop: 5
+              })} > 
+                
+              <Text style={{ color: '#ffffff' }}>Editar Tarea</Text>
               </Pressable>
               <Pressable
                 onLongPress={() => eliminarTarea(tarea.id)} 

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import CrearTarea from './app/screens/CrearTarea';
+import EditarTarea from './app/screens/EditarTarea';
 import Lista from './app/screens/Lista';
 import Login from './app/screens/Login';
 import ProfileScreen from './app/screens/Perfil';
@@ -18,7 +19,8 @@ function diseñoInterno() {
   return(
     <StackInterna.Navigator>
         <StackInterna.Screen name='Mi tareas' component={Lista} options={{title: 'Mis tareas', headerShown:false}}/>
-        <StackInterna.Screen name='CrearTarea' component={CrearTarea} options={{headerShown: false}}/>
+        <StackInterna.Screen name='CrearTarea' component={CrearTarea} options={{title: 'Crear Tarea' ,headerShown: false}}/>
+        <StackInterna.Screen name='EditarTarea' component={EditarTarea} options={{title: 'Editar Tarea', headerShown:false}}/>
         <StackInterna.Screen name='Perfil' component={ProfileScreen} options={{ title: 'Perfil', headerShown: false }} />  
     </StackInterna.Navigator>
   )
