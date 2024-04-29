@@ -1,10 +1,11 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { NavigationProp } from '@react-navigation/native';
 import { addDoc, collection } from 'firebase/firestore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getDoc, doc } from 'firebase/firestore';
 import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal } from 'react-native';
 import { CheckBox } from 'react-native-elements';
-import { FIRESTORE_DB } from '../../firebaseConfig';
+import { FIRESTORE_DB, FIREBASE_AUTH } from '../../firebaseConfig';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -12,7 +13,7 @@ interface RouterProps {
 
 const CrearTarea = ({ navigation }: RouterProps) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalAvisoVisible, setModalAvisoVisible] = useState(false); // Estado para controlar la visibilidad del modal de aviso
+  const [modalAvisoVisible, setModalAvisoVisible] = useState(false);
   const [nombreTarea, setNombreTarea] = useState('');
   const [prioridad, setPrioridad] = useState('');
   const [tipoTarea, setTipoTarea] = useState('');
@@ -20,20 +21,42 @@ const CrearTarea = ({ navigation }: RouterProps) => {
   const [descripcion, setDescripcion] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  const [userData, setUserData] = useState<any | null>(null);
+  const firestore = FIRESTORE_DB;
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        if (FIREBASE_AUTH.currentUser) {
+          const userDoc = await getDoc(doc(firestore, 'usuarios', FIREBASE_AUTH.currentUser.uid)); // Suponiendo que 'usuarios' es la colección donde guardas los datos del usuario
+          if (userDoc.exists()) {
+            setUserData(userDoc.data());
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    getUserData();
+  }, [firestore]);
+
   const AgregarTarea = async () => {
     if (!nombreTarea || !prioridad || !tipoTarea || !fecha || !descripcion) {
-      // Si algún campo está vacío, muestra el modal de aviso y no guarda la tarea
       setModalAvisoVisible(true);
     } else {
       try {
+        const user = FIREBASE_AUTH.currentUser; // Obtén la referencia al usuario actual
         await addDoc(collection(FIRESTORE_DB, 'Tareas'), {
           Nombre: nombreTarea,
           Prioridad: prioridad,
           TipoTarea: tipoTarea,
           Fecha: fecha,
           Descripcion: descripcion,
+          UsuarioId: user ? user.uid : null,
+          Usuario: userData.username  // Agregar el ID del usuario como referencia
         });
-        setModalVisible(true); // Muestra el modal de tarea creada
+        setModalVisible(true);
       } catch (error) {
         console.log(error);
         alert('Error al guardar los datos: ' + error.message);

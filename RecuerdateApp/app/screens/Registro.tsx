@@ -2,7 +2,7 @@ import { NavigationProp } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Modal, Pressable } from 'react-native';
 import { createUserWithEmailAndPassword, sendEmailVerification, } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
 
 
@@ -38,7 +38,9 @@ const Registro = ({navigation}: RouterProps) => {
           console.log(response);
           // Verificar usuario con el correo
           await sendEmailVerification(auth.currentUser);
+          const userUID = auth.currentUser.uid; // Obtén la UID del usuario autenticado
           setModalVisible(true); // Mostrar el modal de verificación
+          activateAccount(userUID); // Llama a la función para activar la cuenta y guardar los datos en Firestore
         })
         .catch((error) => {
           console.log(error);
@@ -54,17 +56,17 @@ const Registro = ({navigation}: RouterProps) => {
     }
   };
 
-  const activateAccount = async () => {
+  const activateAccount = async (userUID: string) => {
     try {
       // Guardar los datos en Firestore
-      await addDoc(collection(firestore, 'usuarios'), { username: username, email: email });
+      const userRef = doc(firestore, 'usuarios', userUID); // Crear una referencia al documento con la UID del usuario
+      await setDoc(userRef, { username: username, email: email }); // Guardar los datos en el documento
       navigation.navigate('Interno'); // Redirigir a la navegación de inicio de sesión
     } catch (error) {
       console.log(error);
       alert('Error al guardar los datos: ' + error.message);
     }
   };
-  
     
   
 
@@ -85,8 +87,7 @@ const Registro = ({navigation}: RouterProps) => {
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
-                setModalVisible(!modalVisible);
-                activateAccount(); // Llamar a la función para activar la cuenta y guardar los datos en Firestore
+                setModalVisible(!modalVisible);// Llamar a la función para activar la cuenta y guardar los datos en Firestore
               }}
             >
               <Text style={styles.textStyle}>Cerrar</Text>
