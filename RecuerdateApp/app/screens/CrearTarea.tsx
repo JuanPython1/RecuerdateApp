@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 1,
+    paddingTop: 50,
     paddingBottom: 10,
   },
   titleContainer: {

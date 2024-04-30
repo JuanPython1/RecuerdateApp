@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { getDoc, doc } from 'firebase/firestore'; // Importa las funciones necesarias de Firestore
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
+
+
 
 const Perfil = ({ navigation }: any) => {
   const [userData, setUserData] = useState<any | null>(null);
@@ -22,8 +24,9 @@ const Perfil = ({ navigation }: any) => {
     };
 
     getUserData();
+   
   }, [firestore]);
-
+  console.log(userData)
   return (
     <View style={styles.container}>
       <View style={styles.backImage}>
@@ -124,8 +127,8 @@ const styles = StyleSheet.create({
     top: 0,
   },
   whiteBox: {
-    padding: 10,
-    backgroundColor: '#ff6b5b',
-    width: '100%',
+    backgroundColor: '#ffffff',
+    paddingTop: 50,
+    paddingBottom: 10,
   },
 });
