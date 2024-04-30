@@ -2,7 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { getDoc, doc } from 'firebase/firestore'; // Importa las funciones necesarias de Firestore
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
+import AvatarPerfil from '../../components/AvatarPerfilEditable';
 
+
+const fotoPerfil = {
+  img: '/assets/AvatarNeutral.webp'
+}
 
 
 const Perfil = ({ navigation }: any) => {
@@ -45,7 +50,7 @@ const Perfil = ({ navigation }: any) => {
           <Text style={styles.h2}>Mi Perfil</Text>
         </View>
         <View style={styles.userInfo}>
-          <Image style={styles.icon3} source={require('../../assets/perfil.png')} />
+        <AvatarPerfil info={fotoPerfil}/>
           {userData && (
             <>
               <Text style={styles.h3}>Nombre de usuario: {userData.username}</Text>
