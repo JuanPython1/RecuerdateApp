@@ -6,6 +6,7 @@ interface AvatarProps {
   info:{
         img : String
   }
+  
 }
 
 const AvatarPerfilEditable: React.FC<AvatarProps>  = ({info}) => {
@@ -17,8 +18,9 @@ const AvatarPerfilEditable: React.FC<AvatarProps>  = ({info}) => {
           source={{ uri: `${info.img}` }}
           title="Avatar"
         >
-        <Avatar.Accessory size={44} />
-
+          
+        <Avatar.Accessory
+        size={44} />
         </Avatar>
   )
 }

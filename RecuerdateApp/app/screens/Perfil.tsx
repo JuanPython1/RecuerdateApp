@@ -52,10 +52,14 @@ const Perfil = ({ navigation }: any) => {
         <View style={styles.userInfo}>
         <AvatarPerfil info={fotoPerfil}/>
           {userData && (
-            <>
-              <Text style={styles.h3}>Nombre de usuario: {userData.username}</Text>
-              <Text style={styles.h3}>Correo electrónico: {userData.email}</Text>
-            </>
+          <View style={styles.userDataContainer}>
+            <Text style={styles.h3}>{userData.username}</Text>
+            <Image style={styles.iconLogin} source={require('../../assets/icono-perfil.png')} />
+            <View style={styles.longBar} />
+            <Text style={styles.h3}>{userData.email}</Text>
+            <Image style={styles.iconEmail} source={require('../../assets/icono-email.png')} />
+            <View style={styles.longBar1} />
+          </View>
           )}
         </View>
       </View>
@@ -71,6 +75,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
+  },
+  longBar: {
+    position: 'absolute',
+    top: 140,
+    width: '140%',
+    height: 1, 
+    backgroundColor: 'gray', 
+    zIndex: 1000,
+  },
+  longBar1: {
+    position: 'absolute',
+    top: 250,
+    width: '140%',
+    height: 1, 
+    backgroundColor: 'gray', 
+    zIndex: 1000,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -94,9 +114,12 @@ const styles = StyleSheet.create({
   },
   h3: {
     color: 'black',
-    fontSize: 14,
-    paddingTop: 2,
-    textAlign: 'left',
+    fontSize: 18,
+    marginTop: 80,
+  },
+  userDataContainer: {
+    flexDirection: 'column',
+    marginLeft: -100
   },
   userInfo: {
     marginVertical: 5,
@@ -125,6 +148,20 @@ const styles = StyleSheet.create({
     height: 180,
     marginTop: 10,
     marginHorizontal: 15,
+  },
+  iconLogin: {
+    position: 'absolute',
+    width: 45,
+    height: 45,
+    marginTop: 65,
+    marginLeft: 280
+  },
+  iconEmail: {
+    position: 'absolute',
+    width: 45,
+    height: 32,
+    marginTop: 175,
+    marginLeft: 275
   },
   backImage: {
     width: '100%',
