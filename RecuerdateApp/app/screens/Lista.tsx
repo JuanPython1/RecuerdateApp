@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingTop: 50,
     paddingBottom: 10,
+    width: '100%'
   },
   titleContainer: {
     flexDirection: 'row',
@@ -136,15 +137,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     marginTop: 5,
-    height: 20,
+    height: 30,
   },
   button: {
     backgroundColor: '#477489',
     height: 90,
-    padding: 25,
+    // padding: 15,
     borderRadius: 15,
     marginHorizontal: 65,
     alignItems: 'center',
+    justifyContent: 'center'
   },
   buttonText: {
     fontWeight: 'bold',

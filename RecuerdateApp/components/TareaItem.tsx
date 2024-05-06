@@ -35,13 +35,13 @@ const TareaItem: React.FC<TareaItemProps> = ({ tarea, onEditarTarea, onEliminarT
          
         </Pressable>
         <Pressable
-          onPress={() => onEditarTarea(tarea.id)}
+          onPress={() => onEditarTarea(tarea.id)} style={{margin: 3}}
         >
-        <Icon name="edit" size={20} color="#000000" />
+        <Icon name="edit" size={20} color="#000000" style={{margin: 3}} />
         </Pressable>
         <Pressable
           onLongPress={() => onEliminarTarea(tarea.id)}
-        >
+          style={{margin: 3}}>
           <AntDesignIcon name='checkcircle' size={25} color='#e75455' />
         </Pressable>
       </View>
