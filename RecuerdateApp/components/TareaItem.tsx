@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import Icon from 'react-native-vector-icons/Feather';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialIconsIcon from 'react-native-vector-icons/MaterialIcons';
 
 interface TareaItemProps {
@@ -37,7 +37,7 @@ const TareaItem: React.FC<TareaItemProps> = ({ tarea, onEditarTarea, onEliminarT
         <Pressable
           onPress={() => onEditarTarea(tarea.id)} style={{margin: 3}}
         >
-        <Icon name="edit" size={20} color="#000000" style={{margin: 3}} />
+        <FontAwesome5Icon name="edit" size={20} color="#000000" style={{margin: 3}} />
         </Pressable>
         <Pressable
           onLongPress={() => onEliminarTarea(tarea.id)}
@@ -72,5 +72,6 @@ const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'column',
     alignItems: 'flex-end',
+    justifyContent:'center'
   },
 });

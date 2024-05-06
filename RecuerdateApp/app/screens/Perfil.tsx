@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { doc, getDoc } from 'firebase/firestore'; // Importa las funciones necesarias de Firestore
+import React, { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { getDoc, doc } from 'firebase/firestore'; // Importa las funciones necesarias de Firestore
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AvatarPerfil from '../../components/AvatarPerfilEditable';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
 
 
 const fotoPerfil = {
@@ -50,17 +51,21 @@ const Perfil = ({ navigation }: any) => {
           <Text style={styles.h2}>Mi Perfil</Text>
         </View>
         <View style={styles.userInfo}>
-        <AvatarPerfil info={fotoPerfil}/>
+          <AvatarPerfil info={fotoPerfil}/>
           {userData && (
           <View style={styles.userDataContainer}>
-            <Text style={styles.h3}>{userData.username}</Text>
-            <Image style={styles.iconLogin} source={require('../../assets/icono-perfil.png')} />
-            <View style={styles.longBar} />
-            <Text style={styles.h3}>{userData.email}</Text>
-            <Image style={styles.iconEmail} source={require('../../assets/icono-email.png')} />
+            <View style={styles.rowContainer}>
+              <Text style={styles.h3}>{userData.username}</Text>
+              <AntDesignIcon name='user' style= {styles.iconos} />
+            </View>
+          <View style={styles.longBar} />
+            <View style={styles.rowContainer}>
+              <Text style={styles.h3}>{userData.email}</Text>
+                <AntDesignIcon name='mail' style= {styles.iconos} />
+              </View>
             <View style={styles.longBar1} />
           </View>
-          )}
+        )}
         </View>
       </View>
     </View>
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
   longBar: {
     position: 'absolute',
     top: 140,
-    width: '140%',
+    width: '100%',
     height: 1, 
     backgroundColor: 'gray', 
     zIndex: 1000,
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
   longBar1: {
     position: 'absolute',
     top: 250,
-    width: '140%',
+    width: '100%',
     height: 1, 
     backgroundColor: 'gray', 
     zIndex: 1000,
@@ -114,20 +119,22 @@ const styles = StyleSheet.create({
   },
   h3: {
     color: 'black',
-    fontSize: 18,
+    fontSize: 15,
     marginTop: 80,
   },
   userDataContainer: {
     flexDirection: 'column',
-    marginLeft: -100
+    justifyContent:'center',
+    // marginLeft: 50,
+    width:'65%'
   },
   userInfo: {
-    marginVertical: 5,
+    marginTop: 5,
     flexDirection: 'column',
     alignItems: 'center',
-    padding: 10,
+    // backgroundColor:'#545454',
     fontSize: 15,
-    marginHorizontal: 65,
+    // marginHorizontal: 65,
   },
   icon: {
     width: 45,
@@ -149,19 +156,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 15,
   },
-  iconLogin: {
+  iconos: {
+    color:'#545454',
     position: 'absolute',
-    width: 45,
-    height: 45,
-    marginTop: 65,
-    marginLeft: 280
-  },
-  iconEmail: {
-    position: 'absolute',
-    width: 45,
-    height: 32,
-    marginTop: 175,
-    marginLeft: 275
+    fontSize:25,
+    // width: 45,
+    // height: 45,
+    marginTop: 85,
+    marginLeft: 275,
+    justifyContent:'center'
   },
   backImage: {
     width: '100%',
@@ -172,5 +175,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingTop: 50,
     paddingBottom: 10,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
   },
 });
