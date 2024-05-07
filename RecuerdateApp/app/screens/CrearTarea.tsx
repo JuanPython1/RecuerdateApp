@@ -3,7 +3,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { addDoc, collection } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { getDoc, doc } from 'firebase/firestore';
-import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Platform } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../../firebaseConfig';
 
@@ -20,6 +20,8 @@ const CrearTarea = ({ navigation }: RouterProps) => {
   const [fecha, setFecha] = useState(new Date());
   const [descripcion, setDescripcion] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showHoraPicker, setShowHoraPicker] = useState(false);
+  const [hora, setHora] = useState(new Date());
 
   const [userData, setUserData] = useState<any | null>(null);
   const firestore = FIRESTORE_DB;
@@ -42,7 +44,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
   }, [firestore]);
 
   const AgregarTarea = async () => {
-    if (!nombreTarea || !prioridad || !tipoTarea || !fecha || !descripcion) {
+    if (!nombreTarea || !prioridad || !tipoTarea || !fecha || !hora || !descripcion) {
       setModalAvisoVisible(true);
     } else {
       try {
@@ -52,6 +54,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           Prioridad: prioridad,
           TipoTarea: tipoTarea,
           Fecha: fecha,
+          Hora: hora,
           Descripcion: descripcion,
           UsuarioId: user ? user.uid : null,
           Usuario: userData.username  // Agregar el ID del usuario como referencia
@@ -63,6 +66,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
       }
     }
   };
+
 
   const handlePrioridadChange = (option: string) => {
     setPrioridad(option);
@@ -77,6 +81,12 @@ const CrearTarea = ({ navigation }: RouterProps) => {
       setFecha(nuevaFecha);
     }
     setShowDatePicker(false);
+  };
+  const handleHoraChange = (event, nuevaHora) => {
+    if (nuevaHora) {
+      setHora(nuevaHora);
+    }
+    setShowHoraPicker(false);
   };
 
   const handleModalCerrado = () => {
@@ -194,6 +204,17 @@ const CrearTarea = ({ navigation }: RouterProps) => {
             mode='date'
             value={fecha}
             onChange={handleFechaChange}
+          />
+        )}
+        <Text style={styles.h3}>Hora Límite</Text>
+        <Pressable onPress={() => setShowHoraPicker(true)} style={styles.datePickerButton}>
+          <Text style={styles.datePickerButtonText}>{hora.toLocaleTimeString()}</Text>
+        </Pressable>
+        {showHoraPicker && (
+          <DateTimePicker
+            mode='time'
+            value={hora}
+            onChange={handleHoraChange}
           />
         )}
 
