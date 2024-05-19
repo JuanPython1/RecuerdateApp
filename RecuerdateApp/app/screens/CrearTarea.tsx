@@ -1,9 +1,8 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { NavigationProp } from '@react-navigation/native';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, getDoc, doc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { getDoc, doc } from 'firebase/firestore';
-import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Platform } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Platform, ScrollView } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../../firebaseConfig';
 
@@ -30,7 +29,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
     const getUserData = async () => {
       try {
         if (FIREBASE_AUTH.currentUser) {
-          const userDoc = await getDoc(doc(firestore, 'usuarios', FIREBASE_AUTH.currentUser.uid)); // Suponiendo que 'usuarios' es la colección donde guardas los datos del usuario
+          const userDoc = await getDoc(doc(firestore, 'usuarios', FIREBASE_AUTH.currentUser.uid));
           if (userDoc.exists()) {
             setUserData(userDoc.data());
           }
@@ -48,7 +47,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
       setModalAvisoVisible(true);
     } else {
       try {
-        const user = FIREBASE_AUTH.currentUser; // Obtén la referencia al usuario actual
+        const user = FIREBASE_AUTH.currentUser;
         await addDoc(collection(FIRESTORE_DB, 'Tareas'), {
           Nombre: nombreTarea,
           Prioridad: prioridad,
@@ -57,7 +56,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           Hora: hora,
           Descripcion: descripcion,
           UsuarioId: user ? user.uid : null,
-          Usuario: userData.username  // Agregar el ID del usuario como referencia
+          Usuario: userData.username
         });
         setModalVisible(true);
       } catch (error) {
@@ -66,7 +65,6 @@ const CrearTarea = ({ navigation }: RouterProps) => {
       }
     }
   };
-
 
   const handlePrioridadChange = (option: string) => {
     setPrioridad(option);
@@ -131,7 +129,8 @@ const CrearTarea = ({ navigation }: RouterProps) => {
         </View>
       </Modal>
 
-      <View style={styles.backImage}>
+      
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.whiteBox}>
           <View style={styles.titleContainer}>
             <Pressable
@@ -152,6 +151,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           </View>
           <Text style={styles.h2}>Nueva Tarea</Text>
         </View>
+        
         <Text style={styles.h3}>Asignar nueva tarea</Text>
         <TextInput
           value={nombreTarea}
@@ -229,9 +229,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
         <TouchableOpacity style={styles.button} onPress={AgregarTarea}>
           <Text style={styles.buttonText}>CONFIRMAR TAREA</Text>
         </TouchableOpacity>
-
-      </View>
-
+      </ScrollView>
     </View>
   );
 };
@@ -241,9 +239,11 @@ export default CrearTarea;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#477489',
-    color: '#ffffff',
+    position: 'relative',
+  },
+  scrollContainer: {
+    paddingBottom: 20,
   },
   h1: {
     fontFamily: 'Roboto',
@@ -274,11 +274,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   backImage: {
-    backgroundColor: '#477489',
-    width: '100%',
-    height: 340,
     position: 'absolute',
     top: 0,
+    left: 0,
+    right: 0,
+    height: 340,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
     resizeMode: 'cover',
   },
   whiteBox: {

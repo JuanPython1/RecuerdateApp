@@ -67,10 +67,9 @@ const Lista = ({ navigation }: RouterProps) => {
           </View>
           <Text style={styles.h2}>Mis Tareas</Text>
         </View>
-        <Text style={styles.h3}> ^ Filtrar por Fecha</Text>
 
         <View style={styles.tareasContainer}>
-          <Text style={styles.h2}>Tareas</Text>
+          <Text style={styles.semitituloTareas}>Tareas</Text>
           {tareas.map((tarea) => (
             <TareaItem
               key={tarea.id}
@@ -117,6 +116,12 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     textAlign: 'left',
   },
+  semitituloTareas:{
+    color: 'black',
+    fontSize: 20,
+    textAlign: 'center',
+    marginVertical: '7%'
+  },
   backImage: {
     backgroundColor: '#acf9ff',
     width: '100%',
@@ -142,9 +147,9 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#477489',
     height: 90,
-    // padding: 15,
     borderRadius: 15,
     marginHorizontal: 65,
+    marginVertical: '2%',
     alignItems: 'center',
     justifyContent: 'center'
   },
