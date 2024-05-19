@@ -22,10 +22,17 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.RecuerdateApp"
+      "package": "com.anonymous.RecuerdateApp",
+      "versionCode": 1,
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "673a9b67-422a-4fc9-85d3-9397ec1cd428"
+      }
     }
   }
 }
