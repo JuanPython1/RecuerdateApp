@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "RecuerdateApp",
-    "slug": "RecuerdateApp",
+    "slug": "httpsgithubcomjuanpython1recuerdateappfirebasetreemainrecuerdateapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,8 +31,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "673a9b67-422a-4fc9-85d3-9397ec1cd428"
+        "projectId": "421b4efe-eac6-4727-add9-6f82f81e065d"
       }
-    }
+    },
+    "owner": "juanpython1"
   }
 }
