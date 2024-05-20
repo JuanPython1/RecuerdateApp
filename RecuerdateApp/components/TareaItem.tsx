@@ -37,15 +37,33 @@ const TareaItem: React.FC<TareaItemProps> = ({ tarea, onEditarTarea, onEliminarT
   return (
     <View style={styles.tareaItem}>
       <View style={styles.textContainer}>
-        <Text style={styles.h4}>{tarea.Nombre}</Text>
+        <Text style={styles.tituloTarea}>{tarea.Nombre}</Text>
         {mostrarDetalles && (
           <>
-            <Text style={styles.h4}>Descripción: {tarea.Descripcion}</Text>
-            <Text style={styles.h4}>Prioridad: {tarea.Prioridad}</Text>
-            <Text style={styles.h4}>Tipo de Tarea: {tarea.TipoTarea}</Text>
-            <Text style={styles.h4}>Usuario: {tarea.Usuario}</Text>
-            <Text style={styles.h4}>Fecha: {formatDate(tarea.Fecha)}</Text>
-            <Text style={styles.h4}>Hora: {formatTime(tarea.Hora)}</Text>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>Descripción: </Text>
+              <Text style={styles.fieldValue}>{tarea.Descripcion}</Text>
+            </View>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>Prioridad:</Text>
+              <Text style={styles.fieldValue}>{tarea.Prioridad}</Text>
+            </View>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>Tipo de Tarea: </Text>
+              <Text style={styles.fieldValue}>{tarea.TipoTarea}</Text>
+            </View>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>Usuario:</Text>
+              <Text style={styles.fieldValue}>{tarea.Usuario}</Text>
+            </View>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>Fecha:</Text>
+              <Text style={styles.fieldValue}>{formatDate(tarea.Fecha)}</Text>
+            </View>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.fieldLabel}>Hora:</Text>
+              <Text style={styles.fieldValue}>{formatTime(tarea.Hora)}</Text>
+            </View>
           </>
         )}
       </View>
@@ -67,18 +85,28 @@ const TareaItem: React.FC<TareaItemProps> = ({ tarea, onEditarTarea, onEliminarT
 export default TareaItem;
 
 const styles = StyleSheet.create({
+  tituloTarea: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 24
+  },
   h4: {
     fontSize: 19,
     textAlign: 'left',
   },
   tareaItem: {
     backgroundColor: '#fff',
-    padding: 10,
-    margin: 5,
+    padding: 15,
+    margin: 10,
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 5,
   },
   textContainer: {
     flex: 1,
@@ -90,6 +118,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    margin: 3,
+    margin: 5,
+  },
+  fieldContainer: {
+    backgroundColor: '#f9f9f9',
+    padding: 10,
+    borderRadius: 20,
+    marginVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  fieldLabel: {
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  fieldValue: {
+    color: '#666',
   },
 });

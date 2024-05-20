@@ -1,25 +1,21 @@
-import { doc, getDoc } from 'firebase/firestore'; // Importa las funciones necesarias de Firestore
+import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import AvatarPerfil from '../../components/AvatarPerfilEditable';
+import AvatarPerfilEditable from '../../components/AvatarPerfilEditable';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
-
-
-const fotoPerfil = {
-  img: '/assets/AvatarNeutral.webp'
-}
-
+import * as ImagePicker from 'expo-image-picker';
 
 const Perfil = ({ navigation }: any) => {
   const [userData, setUserData] = useState<any | null>(null);
+  const [fotoPerfil, setFotoPerfil] = useState({ img: '/assets/AvatarNeutral.webp' });
   const firestore = FIRESTORE_DB;
 
   useEffect(() => {
     const getUserData = async () => {
       try {
         if (FIREBASE_AUTH.currentUser) {
-          const userDoc = await getDoc(doc(firestore, 'usuarios', FIREBASE_AUTH.currentUser.uid)); // Suponiendo que 'usuarios' es la colección donde guardas los datos del usuario
+          const userDoc = await getDoc(doc(firestore, 'usuarios', FIREBASE_AUTH.currentUser.uid));
           if (userDoc.exists()) {
             setUserData(userDoc.data());
           }
@@ -30,9 +26,28 @@ const Perfil = ({ navigation }: any) => {
     };
 
     getUserData();
-   
   }, [firestore]);
-  console.log(userData)
+
+  const selectImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== 'granted') {
+      Alert.alert('Permiso denegado', 'Se requieren permisos para acceder a la galería de imágenes');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setFotoPerfil({ img: result.assets[0].uri });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.backImage}>
@@ -51,28 +66,26 @@ const Perfil = ({ navigation }: any) => {
           <Text style={styles.h2}>Mi Perfil</Text>
         </View>
         <View style={styles.userInfo}>
-          <AvatarPerfil info={fotoPerfil}/>
+          <AvatarPerfilEditable info={fotoPerfil} onPress={selectImage} />
           {userData && (
-          <View style={styles.userDataContainer}>
-            <View style={styles.rowContainer}>
-              <Text style={styles.h3}>{userData.username}</Text>
-              <AntDesignIcon name='user' style= {styles.iconos} />
-            </View>
-          <View style={styles.longBar} />
-            <View style={styles.rowContainer}>
-              <Text style={styles.h3}>{userData.email}</Text>
-                <AntDesignIcon name='mail' style= {styles.iconos} />
+            <View style={styles.userDataContainer}>
+              <View style={styles.rowContainer}>
+                <Text style={styles.h3}>{userData.username}</Text>
+                <AntDesignIcon name='user' style={styles.iconos} />
               </View>
-            <View style={styles.longBar1} />
-          </View>
-        )}
+              <View style={styles.barraHorizontal} />
+              <View style={styles.rowContainer}>
+                <Text style={styles.h3}>{userData.email}</Text>
+                <AntDesignIcon name='mail' style={styles.iconos} />
+              </View>
+              <View style={styles.barraHorizontal} />
+            </View>
+          )}
         </View>
       </View>
     </View>
   );
 };
-
-export default Perfil;
 
 const styles = StyleSheet.create({
   container: {
@@ -81,21 +94,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
   },
-  longBar: {
-    position: 'absolute',
-    top: 140,
-    width: '100%',
-    height: 1, 
-    backgroundColor: 'gray', 
-    zIndex: 1000,
-  },
-  longBar1: {
-    position: 'absolute',
-    top: 250,
-    width: '100%',
-    height: 1, 
-    backgroundColor: 'gray', 
-    zIndex: 1000,
+  barraHorizontal: {
+    height: 1,
+    backgroundColor: 'gray',
+    marginVertical: 10,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -124,17 +126,14 @@ const styles = StyleSheet.create({
   },
   userDataContainer: {
     flexDirection: 'column',
-    justifyContent:'center',
-    // marginLeft: 50,
-    width:'65%'
+    justifyContent: 'center',
+    width: '65%',
   },
   userInfo: {
     marginTop: 5,
     flexDirection: 'column',
     alignItems: 'center',
-    // backgroundColor:'#545454',
     fontSize: 15,
-    // marginHorizontal: 65,
   },
   icon: {
     width: 45,
@@ -157,14 +156,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   iconos: {
-    color:'#545454',
-    position: 'absolute',
-    fontSize:25,
-    // width: 45,
-    // height: 45,
-    marginTop: 85,
-    marginLeft: 275,
-    justifyContent:'center'
+    color: '#545454',
+    fontSize: 25,
+    marginLeft: 10,
+    top: 40,
   },
   backImage: {
     width: '100%',
@@ -183,3 +178,5 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
+export default Perfil;
