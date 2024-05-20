@@ -88,11 +88,7 @@ const styles = StyleSheet.create({
   tituloTarea: {
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 24
-  },
-  h4: {
-    fontSize: 19,
-    textAlign: 'left',
+    fontSize: 24,
   },
   tareaItem: {
     backgroundColor: '#fff',
@@ -101,7 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     shadowColor: '#000',
     shadowOpacity: 0.5,
     shadowOffset: { width: 0, height: 2 },
@@ -110,23 +106,24 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    marginRight: 10,
   },
   iconContainer: {
     flexDirection: 'column',
     alignItems: 'flex-end',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingLeft: 10,
   },
   icon: {
-    margin: 5,
+    marginVertical: 5,
   },
   fieldContainer: {
     backgroundColor: '#f9f9f9',
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 10,
     marginVertical: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   fieldLabel: {
     fontWeight: 'bold',

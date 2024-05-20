@@ -11,6 +11,9 @@ import ProfileScreen from './app/screens/Perfil';
 import RecuperarContraseña from './app/screens/RecuperContraseña';
 import Registro from './app/screens/Registro';
 import { FIREBASE_AUTH, FIRESTORE_DB } from './firebaseConfig';
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs(true);
+
 
 const Stack = createNativeStackNavigator();
 const StackInterna = createNativeStackNavigator();

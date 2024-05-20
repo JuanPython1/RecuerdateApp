@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
 import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
 import TareaItem from '../../components/TareaItem'; // Importa el componente TareaItem
 
@@ -68,21 +68,24 @@ const Lista = ({ navigation }: RouterProps) => {
           <Text style={styles.h2}>Mis Tareas</Text>
         </View>
 
-        <View style={styles.tareasContainer}>
-          <Text style={styles.semitituloTareas}>Tareas</Text>
-          {tareas.map((tarea) => (
-            <TareaItem
-              key={tarea.id}
-              tarea={tarea}
-              onEditarTarea={EditarTarea} // Pasa la función EditarTarea como prop
-              onEliminarTarea={eliminarTarea} // Pasa la función eliminarTarea como prop
-            />
-          ))}
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={goToTareas}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.tareasContainer}>
+            <Text style={styles.semitituloTareas}>Tareas</Text>
+            {tareas.map((tarea) => (
+              <TareaItem
+                key={tarea.id}
+                tarea={tarea}
+                onEditarTarea={EditarTarea} // Pasa la función EditarTarea como prop
+                onEliminarTarea={eliminarTarea} // Pasa la función eliminarTarea como prop
+              />
+            ))}
+          </View>
+          <TouchableOpacity style={styles.button} onPress={goToTareas}>
           <Text style={styles.buttonText}>Agregar una nueva tarea</Text>
         </TouchableOpacity>
+        </ScrollView>
+
+
       </View>
     </View>
   );
@@ -116,16 +119,16 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     textAlign: 'left',
   },
-  semitituloTareas:{
+  semitituloTareas: {
     color: 'black',
     fontSize: 20,
     textAlign: 'center',
-    marginVertical: '7%'
+    marginVertical: '7%',
   },
   backImage: {
     backgroundColor: '#acf9ff',
     width: '100%',
-    height: 340,
+    height: '100%',
     position: 'absolute',
     top: 0,
     resizeMode: 'cover',
@@ -134,7 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingTop: 50,
     paddingBottom: 10,
-    width: '100%'
+    width: '100%',
   },
   titleContainer: {
     flexDirection: 'row',
@@ -148,10 +151,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#477489',
     height: 90,
     borderRadius: 15,
-    marginHorizontal: 65,
+    marginHorizontal: 20,
     marginVertical: '2%',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   buttonText: {
     fontWeight: 'bold',
@@ -165,8 +168,11 @@ const styles = StyleSheet.create({
     height: 45,
     marginTop: 20,
   },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 50,
+  },
   tareasContainer: {
-    marginHorizontal: 65,
     flexDirection: 'column',
     borderRadius: 5,
   },
