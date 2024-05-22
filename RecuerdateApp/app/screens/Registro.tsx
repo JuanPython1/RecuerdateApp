@@ -99,7 +99,7 @@ const Registro = ({navigation}: RouterProps) => {
 
       <View style={styles.signInContainer}>
         <Text style={styles.h1}>Crear una nueva cuenta</Text>
-        <Text style={styles.signInText}>¿Ya estás registrado? Inicia sesión <Text style={styles.signInLink} onPress={() => navigation.navigate('Login')}>aquí</Text>.</Text>
+        <Text style={styles.signInText}>¿Ya estás registrado? Inicia sesión <Text style={styles.signInLink} onPress={() => navigation.goBack()}>aquí</Text>.</Text>
       </View>
       <View style={styles.whiteSheet}>
         <KeyboardAvoidingView behavior='padding'>

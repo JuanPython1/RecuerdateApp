@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "RecuerdateApp",
-    "slug": "httpsgithubcomjuanpython1recuerdateappfirebasetreemainrecuerdateapp",
+    "slug": "RecuerdateApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,16 +22,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.RecuerdateApp",
-      "versionCode": 1,
-      "permissions": []
+      "package": "com.juanpython1.RecuerdateApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "421b4efe-eac6-4727-add9-6f82f81e065d"
+        "projectId": "3ca83a16-1ce8-40f2-b2da-ee26ada0f638"
       }
     },
     "owner": "juanpython1"

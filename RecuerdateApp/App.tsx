@@ -11,41 +11,19 @@ import ProfileScreen from './app/screens/Perfil';
 import RecuperarContraseña from './app/screens/RecuperContraseña';
 import Registro from './app/screens/Registro';
 import { FIREBASE_AUTH, FIRESTORE_DB } from './firebaseConfig';
-import { LogBox } from 'react-native';
-LogBox.ignoreAllLogs(true);
 
 
 const Stack = createNativeStackNavigator();
 const StackInterna = createNativeStackNavigator();
 
-function diseñoInterno({ route }: { route: any }) {
-  const { user } = route.params;
-  
-  // Aquí puedes acceder a las propiedades del usuario guardadas en Firestore
-  const [userData, setUserData] = useState<any>(null);
-  const firestore = FIRESTORE_DB;
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const userDoc = await getDoc(doc(firestore, 'usuarios', user.uid)); // Suponiendo que 'usuarios' es la colección donde guardas los datos del usuario
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    getUserData();
-  }, [firestore, user.uid]);
-
+function DiseñoInterno() {
+ 
   return (
     <StackInterna.Navigator>
-      <StackInterna.Screen name='Mi tareas' component={Lista} options={{ title: 'Mis tareas', headerShown: false }} initialParams={{user, userData}} />
-      <StackInterna.Screen name='CrearTarea' component={CrearTarea} options={{ title: 'Crear Tarea', headerShown: false }} initialParams={{user, userData}}/>
-      <StackInterna.Screen name='EditarTarea' component={EditarTarea} options={{ title: 'Editar Tarea', headerShown: false }} initialParams={{user, userData}}/>
-      <StackInterna.Screen name='Perfil' component={ProfileScreen} options={{ title: 'Perfil', headerShown: false }} initialParams={{ user, userData }} />
+      <StackInterna.Screen name='Mi tareas' component={Lista} options={{ title: 'Mis tareas', headerShown: false }}  />
+      <StackInterna.Screen name='CrearTarea' component={CrearTarea} options={{ title: 'Crear Tarea', headerShown: false }} />
+      <StackInterna.Screen name='EditarTarea' component={EditarTarea} options={{ title: 'Editar Tarea', headerShown: false }} />
+      <StackInterna.Screen name='Perfil' component={ProfileScreen} options={{ title: 'Perfil', headerShown: false }}  />
     </StackInterna.Navigator>
   );
 }
@@ -64,7 +42,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login'>
-        {user ? (<Stack.Screen name='Interno' component={diseñoInterno} initialParams={{ user }} options={{ headerShown: false }} />) :
+        {user ? (<Stack.Screen name='Interno' component={DiseñoInterno}  options={{ headerShown: false }} />) :
           (<Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />)}
         <Stack.Screen name='Register' component={Registro} options={{ headerShown: false }} />
         <Stack.Screen name='RecuperarContraseña' component={RecuperarContraseña} options={{ headerShown: false }} />

@@ -2,7 +2,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, ScrollView } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FIRESTORE_DB } from '../../firebaseConfig';
 

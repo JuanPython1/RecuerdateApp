@@ -3,7 +3,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { addDoc, collection, getDoc, doc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Platform, ScrollView } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import { CheckBox } from '@rneui/themed';
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../../firebaseConfig';
 
 interface RouterProps {
