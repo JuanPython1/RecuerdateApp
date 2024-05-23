@@ -5,6 +5,7 @@ import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Platform, ScrollView } from 'react-native';
 import { CheckBox } from '@rneui/themed';
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../../firebaseConfig';
+import * as Notificacion from 'expo-notifications';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -61,6 +62,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           UsuarioId: user ? user.uid : null,
           Usuario: userData?.username || 'Anon'
         });
+        await RecordatorioTareaNotificacion(taskData);
         setModalVisible(true);
       } catch (error) {
         console.log(error);
@@ -131,6 +133,28 @@ const CrearTarea = ({ navigation }: RouterProps) => {
     </Modal>
   ), [modalAvisoVisible]);
 
+  const RecordatorioTareaNotificacion = async (tarea) => {
+    const trigger = new Date(tarea.hora);
+    const now = new Date(); // Obtiene la fecha y hora actual
+    
+    // Verifica si la fecha de la tarea es anterior a la fecha actual
+    if (trigger <= now) {
+      alert('La fecha de la tarea ya ha pasado.');
+      return; // No progresa más en la función
+    }
+    
+    try {
+      await Notificacion.scheduleNotificationAsync({
+        content: {
+          title: "Recordatorio de Tarea",
+          body: tarea.nombreTarea,
+        },
+        trigger,
+      });
+    } catch (e) {
+      alert('La notificación falló al programarse porque la fecha ya pasó.');
+    }
+  };
   return (
     <View style={styles.container}>
       {renderModal}
