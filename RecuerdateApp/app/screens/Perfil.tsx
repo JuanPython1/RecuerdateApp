@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 5,
-    height: 20,
+    height: 30
   },
   h1: {
     fontFamily: 'Roboto',

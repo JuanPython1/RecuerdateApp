@@ -287,8 +287,9 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 50,
-    paddingBottom: 10,
+    paddingTop: '8%',
+    paddingVertical: '2%',
+    paddingHorizontal: '5%',    
   },
   titleContainer: {
     flexDirection: 'row',
@@ -296,7 +297,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     marginTop: 5,
-    height: 20,
+    height: 30
   },
   icon: {
     width: 45,
