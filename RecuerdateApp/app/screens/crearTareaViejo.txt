@@ -1,7 +1,7 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { NavigationProp } from '@react-navigation/native';
 import { addDoc, collection, getDoc, doc } from 'firebase/firestore';
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Platform, ScrollView } from 'react-native';
 import { CheckBox } from '@rneui/themed';
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../../firebaseConfig';
@@ -13,25 +13,23 @@ interface RouterProps {
 const CrearTarea = ({ navigation }: RouterProps) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalAvisoVisible, setModalAvisoVisible] = useState(false);
-  const [taskData, setTaskData] = useState({
-    nombreTarea: '',
-    prioridad: '',
-    tipoTarea: '',
-    fecha: new Date(),
-    hora: new Date(),
-    descripcion: ''
-  });
-
+  const [nombreTarea, setNombreTarea] = useState('');
+  const [prioridad, setPrioridad] = useState('');
+  const [tipoTarea, setTipoTarea] = useState('');
+  const [fecha, setFecha] = useState(new Date());
+  const [descripcion, setDescripcion] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showHoraPicker, setShowHoraPicker] = useState(false);
+  const [hora, setHora] = useState(new Date());
+
   const [userData, setUserData] = useState<any | null>(null);
+  const firestore = FIRESTORE_DB;
 
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const user = FIREBASE_AUTH.currentUser;
-        if (user) {
-          const userDoc = await getDoc(doc(FIRESTORE_DB, 'usuarios', user.uid));
+        if (FIREBASE_AUTH.currentUser) {
+          const userDoc = await getDoc(doc(firestore, 'usuarios', FIREBASE_AUTH.currentUser.uid));
           if (userDoc.exists()) {
             setUserData(userDoc.data());
           }
@@ -42,10 +40,9 @@ const CrearTarea = ({ navigation }: RouterProps) => {
     };
 
     getUserData();
-  }, []);
+  }, [firestore]);
 
   const AgregarTarea = async () => {
-    const { nombreTarea, prioridad, tipoTarea, fecha, hora, descripcion } = taskData;
     if (!nombreTarea || !prioridad || !tipoTarea || !fecha || !hora || !descripcion) {
       setModalAvisoVisible(true);
     } else {
@@ -59,7 +56,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
           Hora: hora,
           Descripcion: descripcion,
           UsuarioId: user ? user.uid : null,
-          Usuario: userData?.username || 'Anon'
+          Usuario: userData.username
         });
         setModalVisible(true);
       } catch (error) {
@@ -69,20 +66,23 @@ const CrearTarea = ({ navigation }: RouterProps) => {
     }
   };
 
-  const handleInputChange = useCallback((key: string, value: any) => {
-    setTaskData((prevData) => ({ ...prevData, [key]: value }));
-  }, []);
+  const handlePrioridadChange = (option: string) => {
+    setPrioridad(option);
+  };
+
+  const handleTipoTareaChange = (tipo: string) => {
+    setTipoTarea(tipo);
+  };
 
   const handleFechaChange = (event: any, nuevaFecha?: Date) => {
     if (nuevaFecha) {
-      handleInputChange('fecha', nuevaFecha);
+      setFecha(nuevaFecha);
     }
     setShowDatePicker(false);
   };
-
-  const handleHoraChange = (event: any, nuevaHora?: Date) => {
+  const handleHoraChange = (event, nuevaHora) => {
     if (nuevaHora) {
-      handleInputChange('hora', nuevaHora);
+      setHora(nuevaHora);
     }
     setShowHoraPicker(false);
   };
@@ -92,63 +92,60 @@ const CrearTarea = ({ navigation }: RouterProps) => {
     navigation.navigate('Mi tareas');
   };
 
-  const renderModal = useMemo(() => (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => setModalVisible(false)}
-    >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Tarea Creada</Text>
-          <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalCerrado}>
-            <Text style={styles.textStyle}>Cerrar</Text>
-          </Pressable>
-        </View>
-      </View>
-    </Modal>
-  ), [modalVisible]);
-
-  const renderAvisoModal = useMemo(() => (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalAvisoVisible}
-      onRequestClose={() => setModalAvisoVisible(false)}
-    >
-      <View style={styles.centeredView}>
-        <View style={styles.modalAvisoView}>
-          <Text style={styles.modalText}>Debe llenar todos los campos</Text>
-          <Pressable
-            style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalAvisoVisible(false)}
-          >
-            <Text style={styles.textStyle}>Cerrar</Text>
-          </Pressable>
-        </View>
-      </View>
-    </Modal>
-  ), [modalAvisoVisible]);
-
   return (
     <View style={styles.container}>
-      {renderModal}
-      {renderAvisoModal}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Tarea Creada</Text>
+            <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalCerrado}>
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalAvisoVisible}
+        onRequestClose={() => setModalAvisoVisible(false)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalAvisoView}>
+            <Text style={styles.modalText}>Debe llenar todos los campos</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalAvisoVisible(false)}
+            >
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
+      
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.whiteBox}>
           <View style={styles.titleContainer}>
             <Pressable
               onPress={() => navigation.goBack()}
-              style={({ pressed }) => ({ opacity: pressed ? 0 : 1 })}
-            >
+              style={({ pressed }) => {
+                return { opacity: pressed ? 0 : 1 };
+              }}>
               <Image style={styles.icon} source={require('../../assets/icono.png')} />
             </Pressable>
             <Text style={styles.h1}>RecuerDate</Text>
             <Pressable
               onPress={() => navigation.navigate('Perfil')}
-              style={({ pressed }) => ({ opacity: pressed ? 0 : 1 })}
-            >
+              style={({ pressed }) => {
+                return { opacity: pressed ? 0 : 1 };
+              }}>
               <Image style={styles.icon} source={require('../../assets/perfil.png')} />
             </Pressable>
           </View>
@@ -157,60 +154,74 @@ const CrearTarea = ({ navigation }: RouterProps) => {
         
         <Text style={styles.h3}>Asignar nueva tarea</Text>
         <TextInput
-          value={taskData.nombreTarea}
-          onChangeText={(value) => handleInputChange('nombreTarea', value)}
+          value={nombreTarea}
+          onChangeText={setNombreTarea}
           style={styles.input}
           placeholder='Asignar Nombre...'
         />
         <Text style={styles.h3}>Prioridad</Text>
         <View style={styles.checkboxContainer}>
-          {['Exposición', 'Evaluación', 'Tarea', 'Taller'].map((option) => (
-            <CheckBox
-              key={option}
-              title={option}
-              checked={taskData.prioridad === option}
-              onPress={() => handleInputChange('prioridad', option)}
-            />
-          ))}
+          <CheckBox
+            title='Exposición'
+            checked={prioridad === 'Exposición'}
+            onPress={() => handlePrioridadChange('Exposición')}
+          />
+          <CheckBox
+            title='Evaluación'
+            checked={prioridad === 'Evaluación'}
+            onPress={() => handlePrioridadChange('Evaluación')}
+          />
+          <CheckBox
+            title='Tarea'
+            checked={prioridad === 'Tarea'}
+            onPress={() => handlePrioridadChange('Tarea')}
+          />
+          <CheckBox
+            title='Taller'
+            checked={prioridad === 'Taller'}
+            onPress={() => handlePrioridadChange('Taller')}
+          />
         </View>
         <Text style={styles.h3}>Tipo</Text>
         <View style={styles.checkboxContainer}>
-          {['Individual', 'Grupal'].map((tipo) => (
-            <CheckBox
-              key={tipo}
-              title={tipo}
-              checked={taskData.tipoTarea === tipo}
-              onPress={() => handleInputChange('tipoTarea', tipo)}
-            />
-          ))}
+          <CheckBox
+            title='Individual'
+            checked={tipoTarea === 'Individual'}
+            onPress={() => handleTipoTareaChange('Individual')}
+          />
+          <CheckBox
+            title='Grupal'
+            checked={tipoTarea === 'Grupal'}
+            onPress={() => handleTipoTareaChange('Grupal')}
+          />
         </View>
         <Text style={styles.h3}>Fecha Límite</Text>
         <Pressable onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
-          <Text style={styles.datePickerButtonText}>{taskData.fecha.toLocaleDateString()}</Text>
+          <Text style={styles.datePickerButtonText}>{fecha.toLocaleDateString()}</Text>
         </Pressable>
         {showDatePicker && (
           <DateTimePicker
             mode='date'
-            value={taskData.fecha}
+            value={fecha}
             onChange={handleFechaChange}
           />
         )}
         <Text style={styles.h3}>Hora Límite</Text>
         <Pressable onPress={() => setShowHoraPicker(true)} style={styles.datePickerButton}>
-          <Text style={styles.datePickerButtonText}>{taskData.hora.toLocaleTimeString()}</Text>
+          <Text style={styles.datePickerButtonText}>{hora.toLocaleTimeString()}</Text>
         </Pressable>
         {showHoraPicker && (
           <DateTimePicker
             mode='time'
-            value={taskData.hora}
+            value={hora}
             onChange={handleHoraChange}
           />
         )}
 
         <Text style={styles.h3}>Descripción</Text>
         <TextInput
-          value={taskData.descripcion}
-          onChangeText={(value) => handleInputChange('descripcion', value)}
+          value={descripcion}
+          onChangeText={setDescripcion}
           style={styles.input}
           placeholder='Descripción...'
         />
@@ -262,18 +273,31 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold'
   },
+  backImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 340,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 50,
-    paddingBottom: 10,
+    paddingTop: '8%',
+    paddingVertical: '2%',
+    paddingHorizontal: '5%',    
   },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     marginTop: 5,
-    height: 29,
+    height: 30
   },
   icon: {
     width: 45,
@@ -284,6 +308,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     marginHorizontal: 65,
     borderRadius: 15,
+    tintColor: '#ff6700',
+    borderColor: '#ff6700',
   },
   datePickerButton: {
     backgroundColor: '#FFFFFF',
@@ -310,6 +336,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10
   },
+  // Estilos para el modal
   centeredView: {
     flex: 1,
     justifyContent: 'center',
