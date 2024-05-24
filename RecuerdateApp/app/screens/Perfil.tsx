@@ -2,13 +2,12 @@ import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
-import AvatarPerfilEditable from '../../components/AvatarPerfilEditable';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
-import * as ImagePicker from 'expo-image-picker';
+import { Avatar } from '@rneui/themed';
+
 
 const Perfil = ({ navigation }: any) => {
   const [userData, setUserData] = useState<any | null>(null);
-  const [fotoPerfil, setFotoPerfil] = useState({ img: '/assets/AvatarNeutral.webp' });
   const firestore = FIRESTORE_DB;
 
   useEffect(() => {
@@ -28,25 +27,7 @@ const Perfil = ({ navigation }: any) => {
     getUserData();
   }, [firestore]);
 
-  const selectImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (status !== 'granted') {
-      Alert.alert('Permiso denegado', 'Se requieren permisos para acceder a la galería de imágenes');
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      setFotoPerfil({ img: result.assets[0].uri });
-    }
-  };
+ 
 
   return (
     <View style={styles.container}>
@@ -65,8 +46,16 @@ const Perfil = ({ navigation }: any) => {
           </View>
           <Text style={styles.h2}>Mi Perfil</Text>
         </View>
+
         <View style={styles.userInfo}>
-          <AvatarPerfilEditable info={fotoPerfil} onPress={selectImage} />
+        <Avatar
+          size={150}
+          rounded
+          source={require('../../assets/AvatarNeutral.webp')}
+          title="AvatarPerfil"
+        >
+          <Avatar.Accessory size={53} />
+        </Avatar>
           {userData && (
             <View style={styles.userDataContainer}>
               <View style={styles.rowContainer}>
@@ -168,7 +157,6 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 50,
     paddingBottom: 10,
   },
   rowContainer: {

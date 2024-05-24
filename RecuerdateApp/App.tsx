@@ -14,6 +14,7 @@ import { FIREBASE_AUTH, FIRESTORE_DB } from './firebaseConfig';
 import * as Notificaciones from 'expo-notifications';
 import * as Device from 'expo-device'
 import { Platform } from 'react-native'
+import { StatusBar } from 'react-native';
 
 
 
@@ -88,6 +89,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar backgroundColor={'#A1E6EC'}/>
       <Stack.Navigator initialRouteName='Login'>
         {user ? (<Stack.Screen name='Interno' component={DiseñoInterno}  options={{ headerShown: false }} />) :
           (<Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />)}

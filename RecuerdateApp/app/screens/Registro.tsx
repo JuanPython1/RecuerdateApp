@@ -19,7 +19,6 @@ const Registro = ({navigation}: RouterProps) => {
   const [modalVisible, setModalVisible] = useState(false); // Estado para el modal de verificación
   const auth = FIREBASE_AUTH;
   const firestore = FIRESTORE_DB;
-  const avatar = '../../assets/AvatarNeutral.webp'
 
   const validacionContraseña =  () => {
     if(password !== ConfirmPassword){
@@ -61,7 +60,7 @@ const Registro = ({navigation}: RouterProps) => {
     try {
       // Guardar los datos en Firestore
       const userRef = doc(firestore, 'usuarios', userUID); // Crear una referencia al documento con la UID del usuario
-      await setDoc(userRef, { username: username, email: email, avatar: avatar }); // Guardar los datos en el documento
+      await setDoc(userRef, { username: username, email: email }); // Guardar los datos en el documento
       navigation.navigate('Interno'); // Redirigir a la navegación de inicio de sesión
     } catch (error) {
       console.log(error);
@@ -102,7 +101,7 @@ const Registro = ({navigation}: RouterProps) => {
         <Text style={styles.signInText}>¿Ya estás registrado? Inicia sesión <Text style={styles.signInLink} onPress={() => navigation.goBack()}>aquí</Text>.</Text>
       </View>
       <View style={styles.whiteSheet}>
-        <KeyboardAvoidingView behavior='padding'>
+        <KeyboardAvoidingView behavior='padding' style={{marginTop:'10%'}}>
           <Text style={styles.h2}>NOMBRE DE USUARIO</Text>
           <TextInput value={username} style={styles.input} placeholder="Nombre de usuario" autoCapitalize="none" onChangeText={(text) => setUsername(text)} />
           <Text style={styles.h2}>CORREO</Text>

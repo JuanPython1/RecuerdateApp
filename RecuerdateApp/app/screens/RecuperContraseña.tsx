@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
       position:'absolute',
         width: 45,
         height: 45,
-        marginTop:20,
+
         zIndex:1 
         // resizeMode: 'contain',
       },

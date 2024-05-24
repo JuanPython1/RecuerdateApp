@@ -1,6 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { NavigationProp } from '@react-navigation/native';
-import { addDoc, collection, getDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, getDoc, doc} from 'firebase/firestore';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Image, Pressable, StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Platform, ScrollView } from 'react-native';
 import { CheckBox } from '@rneui/themed';
@@ -49,25 +49,41 @@ const CrearTarea = ({ navigation }: RouterProps) => {
     const { nombreTarea, prioridad, tipoTarea, fecha, hora, descripcion } = taskData;
     if (!nombreTarea || !prioridad || !tipoTarea || !fecha || !hora || !descripcion) {
       setModalAvisoVisible(true);
-    } else {
-      try {
-        const user = FIREBASE_AUTH.currentUser;
-        await addDoc(collection(FIRESTORE_DB, 'Tareas'), {
-          Nombre: nombreTarea,
-          Prioridad: prioridad,
-          TipoTarea: tipoTarea,
-          Fecha: fecha,
-          Hora: hora,
-          Descripcion: descripcion,
-          UsuarioId: user ? user.uid : null,
-          Usuario: userData?.username || 'Anon'
-        });
-        await RecordatorioTareaNotificacion(taskData);
-        setModalVisible(true);
-      } catch (error) {
-        console.log(error);
-        alert('Error al guardar los datos: ' + error.message);
-      }
+      return;
+    }
+
+    const trigger = new Date(fecha);
+    trigger.setHours(hora.getHours());
+    trigger.setMinutes(hora.getMinutes());
+    trigger.setSeconds(0);
+    const now = new Date();
+
+    // Verificación de fecha y hora
+    if (trigger <= now) {
+      alert('La fecha y hora de la tarea ya han pasado.');
+      return; // No procede con la creación de la tarea
+    }
+
+    try {
+      const user = FIREBASE_AUTH.currentUser;
+      const notificationId = await RecordatorioTareaNotificacion(taskData);
+      await addDoc(collection(FIRESTORE_DB, 'Tareas'), {
+        Nombre: nombreTarea,
+        Prioridad: prioridad,
+        TipoTarea: tipoTarea,
+        Fecha: fecha,
+        Hora: hora,
+        Descripcion: descripcion,
+        UsuarioId: user ? user.uid : null,
+        Usuario: userData?.username || 'Anon',
+        NotificacionId: notificationId
+      });
+      
+      setModalVisible(true);
+      
+    } catch (error) {
+      console.log(error);
+      alert('Error al guardar los datos: ' + error.message);
     }
   };
 
@@ -134,27 +150,36 @@ const CrearTarea = ({ navigation }: RouterProps) => {
   ), [modalAvisoVisible]);
 
   const RecordatorioTareaNotificacion = async (tarea) => {
-    const trigger = new Date(tarea.hora);
-    const now = new Date(); // Obtiene la fecha y hora actual
-    
-    // Verifica si la fecha de la tarea es anterior a la fecha actual
+    const trigger = new Date(tarea.fecha);
+    trigger.setHours(tarea.hora.getHours());
+    trigger.setMinutes(tarea.hora.getMinutes());
+    trigger.setSeconds(0);
+    const now = new Date();
+  
+    console.log('Fecha y hora de la alarma:', trigger);
+  
     if (trigger <= now) {
       alert('La fecha de la tarea ya ha pasado.');
-      return; // No progresa más en la función
+      return;
     }
-    
+  
     try {
-      await Notificacion.scheduleNotificationAsync({
+      const notificationId = await Notificacion.scheduleNotificationAsync({
         content: {
           title: "Recordatorio de Tarea",
           body: tarea.nombreTarea,
         },
         trigger,
       });
+  
+      return notificationId;
+  
     } catch (e) {
       alert('La notificación falló al programarse porque la fecha ya pasó.');
     }
   };
+
+
   return (
     <View style={styles.container}>
       {renderModal}
@@ -217,6 +242,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
             mode='date'
             value={taskData.fecha}
             onChange={handleFechaChange}
+            minimumDate={new Date()} // Aquí se establece la fecha mínima seleccionable
           />
         )}
         <Text style={styles.h3}>Hora Límite</Text>
@@ -228,6 +254,7 @@ const CrearTarea = ({ navigation }: RouterProps) => {
             mode='time'
             value={taskData.hora}
             onChange={handleHoraChange}
+            minimumDate={taskData.fecha.toDateString() === new Date().toDateString() ? new Date() : undefined} // Aquí se establece la hora mínima seleccionable si la fecha es hoy
           />
         )}
 
@@ -288,7 +315,6 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 50,
     paddingBottom: 10,
   },
   titleContainer: {

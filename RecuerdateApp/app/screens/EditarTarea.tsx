@@ -195,34 +195,31 @@ const styles = StyleSheet.create({
   icon: {
     width: 45,
     height: 45,
-    top: 30,
-    marginHorizontal: '2%'
+    marginHorizontal: '2%',
   },
   h1: {
     fontFamily: 'Roboto',
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'center',
-    marginTop: 30,
   },
   h2: {
     color: 'black',
     fontSize: 14,
+    bottom: '10%',
     textAlign: 'center',
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
     width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   titleContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 5,
+    height: 35,
   },
   h3: {
     color: 'black',

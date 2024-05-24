@@ -1,9 +1,11 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { NavigationProp } from '@react-navigation/native';
-import { collection, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { collection, deleteDoc, doc, onSnapshot, query, where, getDoc } from 'firebase/firestore';
+import { ScrollView, StyleSheet, Text, View, Pressable, Animated, Image, TouchableOpacity } from 'react-native';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
 import TareaItem from '../../components/TareaItem'; // Importa el componente TareaItem
+import { cancelScheduledNotificationAsync } from 'expo-notifications';
+import Burbujas from '../../components/burbujasAnimadas';
 
 interface RouterProps {
   navigation: NavigationProp<any, any>;
@@ -11,6 +13,7 @@ interface RouterProps {
 
 const Lista = ({ navigation }: RouterProps) => {
   const [tareas, setTareas] = useState([]);
+  const fadeAnim = useRef(new Animated.Value(0)).current; // Valor inicial de la animación
 
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
@@ -25,15 +28,41 @@ const Lista = ({ navigation }: RouterProps) => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    // Animación de desvanecimiento
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000, // Duración de la animación en milisegundos
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
   const goToTareas = () => {
     navigation.navigate('CrearTarea');
   };
 
   const eliminarTarea = async (id) => {
     try {
-      await deleteDoc(doc(FIRESTORE_DB, 'Tareas', id));
-      const updatedTareas = tareas.filter((t) => t.id !== id);
-      setTareas(updatedTareas);
+      const tareaRef = doc(FIRESTORE_DB, 'Tareas', id);
+      const tareaDoc = await getDoc(tareaRef);
+      if (tareaDoc.exists()) {
+        const tareaData = tareaDoc.data();
+        const notificationId = tareaData.NotificacionId;
+
+        // Cancelar la notificación si existe
+        if (notificationId) {
+          await cancelScheduledNotificationAsync(notificationId);
+        }
+
+        // Eliminar la tarea de la base de datos
+        await deleteDoc(tareaRef);
+
+        // Actualizar la lista de tareas en el estado local
+        const updatedTareas = tareas.filter((t) => t.id !== id);
+        setTareas(updatedTareas);
+      } else {
+        console.log('La tarea no existe.');
+      }
     } catch (error) {
       console.error('Error al eliminar la tarea:', error);
     }
@@ -47,6 +76,7 @@ const Lista = ({ navigation }: RouterProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.backImage}>
+        <Burbujas />
         <View style={styles.whiteBox}>
           <View style={styles.titleContainer}>
             <Pressable
@@ -70,7 +100,6 @@ const Lista = ({ navigation }: RouterProps) => {
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.tareasContainer}>
-            <Text style={styles.semitituloTareas}>Tareas</Text>
             {tareas.map((tarea) => (
               <TareaItem
                 key={tarea.id}
@@ -80,12 +109,12 @@ const Lista = ({ navigation }: RouterProps) => {
               />
             ))}
           </View>
-          <TouchableOpacity style={styles.button} onPress={goToTareas}>
-          <Text style={styles.buttonText}>Agregar una nueva tarea</Text>
-        </TouchableOpacity>
+          <Animated.View style={[styles.buttonContainer, { opacity: fadeAnim }]}>
+            <TouchableOpacity style={styles.button} onPress={goToTareas}>
+              <Text style={styles.buttonText}>Agregar una nueva tarea</Text>
+            </TouchableOpacity>
+          </Animated.View>
         </ScrollView>
-
-
       </View>
     </View>
   );
@@ -135,7 +164,6 @@ const styles = StyleSheet.create({
   },
   whiteBox: {
     backgroundColor: '#ffffff',
-    paddingTop: 50,
     paddingBottom: 10,
     width: '100%',
   },
@@ -147,21 +175,28 @@ const styles = StyleSheet.create({
     marginTop: 5,
     height: 30,
   },
-  button: {
-    backgroundColor: '#477489',
-    height: 90,
-    borderRadius: 15,
-    marginHorizontal: 20,
-    marginVertical: '2%',
+  buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginVertical: 10,
+  },
+  button: {
+    backgroundColor: '#00796B',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   buttonText: {
-    fontWeight: 'bold',
-    alignItems: 'center',
-    alignSelf: 'center',
     color: '#ffffff',
-    fontSize: 21,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   icon: {
     width: 45,
@@ -175,5 +210,13 @@ const styles = StyleSheet.create({
   tareasContainer: {
     flexDirection: 'column',
     borderRadius: 5,
+    marginVertical: '5%',
+  },
+  bubblesContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });

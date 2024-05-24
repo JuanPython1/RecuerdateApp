@@ -1,26 +1,27 @@
 import { Avatar } from '@rneui/themed';
 import React from 'react';
-import { Pressable } from 'react-native';
 
 interface AvatarProps {
   info: {
-    img: string;
+    img: string  // Cambiamos el tipo de dato a string o number
   };
   onPress: () => void;
 }
 
 const AvatarPerfilEditable: React.FC<AvatarProps> = ({ info, onPress }) => {
+  // Verificar la URL de la imagen
+  console.log("URL de la imagen:", info.img);
+
   return (
-    <Pressable onPress={onPress}>
       <Avatar
         size={160}
         rounded
-        source={{ uri: `${info.img}` }}
+        source={typeof info.img === 'string' ? { uri: `${info.img}` } : info.img} // Manejamos la imagen default
         title="Avatar"
       >
-        <Avatar.Accessory size={44} />
+        <Avatar.Accessory size={44} onPress={onPress} />
       </Avatar>
-    </Pressable>
+
   );
 }
 

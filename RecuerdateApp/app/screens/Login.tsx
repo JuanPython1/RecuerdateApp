@@ -123,9 +123,9 @@ const styles = StyleSheet.create({
   whiteSheet: {
     paddingTop:50,
     width: '100%',
-    height: '65%',
+    height: '60%',
     position: "absolute",
-    bottom: 0,
+    bottom: '0%',
     backgroundColor: '#081e36',
     borderTopRightRadius: 50,
     color:'#ffffff',
