@@ -22,11 +22,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "CAMERA",
-        "ACCESS_FINE_LOCATION",
-        "WRITE_EXTERNAL_STORAGE"
-      ],
       "package": "com.juanpython1.RecuerdateApp"
     },
     "web": {
