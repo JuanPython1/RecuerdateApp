@@ -1,9 +1,9 @@
+import { Avatar } from '@rneui/themed';
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
-import { Avatar } from '@rneui/themed';
 
 
 const Perfil = ({ navigation }: any) => {
@@ -27,7 +27,7 @@ const Perfil = ({ navigation }: any) => {
     getUserData();
   }, [firestore]);
 
- 
+
 
   return (
     <View style={styles.container}>
@@ -48,14 +48,14 @@ const Perfil = ({ navigation }: any) => {
         </View>
 
         <View style={styles.userInfo}>
-        <Avatar
-          size={150}
-          rounded
-          source={require('../../assets/AvatarNeutral.webp')}
-          title="AvatarPerfil"
-        >
-          <Avatar.Accessory size={53} />
-        </Avatar>
+          <Avatar
+            size={150}
+            rounded
+            source={require('../../assets/AvatarNeutral.webp')}
+            title="AvatarPerfil"
+          >
+            <Avatar.Accessory size={53} />
+          </Avatar>
           {userData && (
             <View style={styles.userDataContainer}>
               <View style={styles.rowContainer}>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 5,
+    marginTop: 10,
     height: 30
   },
   h1: {
