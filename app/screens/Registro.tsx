@@ -1,8 +1,8 @@
 import { NavigationProp } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Modal, Pressable } from 'react-native';
 import { createUserWithEmailAndPassword, sendEmailVerification, } from 'firebase/auth';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
+import React, { useState } from 'react';
+import { ActivityIndicator, KeyboardAvoidingView, Modal, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebaseConfig';
 
 
@@ -10,7 +10,7 @@ interface RouterProps {
   navigation: NavigationProp<any, any>;
 }
 
-const Registro = ({navigation}: RouterProps) => {
+const Registro = ({ navigation }: RouterProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
@@ -20,12 +20,12 @@ const Registro = ({navigation}: RouterProps) => {
   const auth = FIREBASE_AUTH;
   const firestore = FIRESTORE_DB;
 
-  const validacionContraseña =  () => {
-    if(password !== ConfirmPassword){
-     alert('Las contraseñas no coinciden. Por favor, ingresalas de nuevo.')
+  const validacionContraseña = () => {
+    if (password !== ConfirmPassword) {
+      alert('Las contraseñas no coinciden. Por favor, ingresalas de nuevo.')
     }
-    else{
-     singUp()
+    else {
+      singUp()
     }
   }
 
@@ -67,8 +67,8 @@ const Registro = ({navigation}: RouterProps) => {
       alert('Error al guardar los datos: ' + error.message);
     }
   };
-    
-  
+
+
 
   return (
     <View style={styles.container}>
@@ -98,10 +98,10 @@ const Registro = ({navigation}: RouterProps) => {
 
       <View style={styles.signInContainer}>
         <Text style={styles.h1}>Crear una nueva cuenta</Text>
-        <Text style={styles.signInText}>¿Ya estás registrado? Inicia sesión <Text style={styles.signInLink} onPress={() => navigation.goBack()}>aquí</Text>.</Text>
+        <Text style={styles.signInText}>¿Ya estás registrado? Inicia sesión <Text style={styles.signInLink} onPress={() => navigation.navigate('Login')}>aquí</Text>.</Text>
       </View>
       <View style={styles.whiteSheet}>
-        <KeyboardAvoidingView behavior='padding' style={{marginTop:'10%'}}>
+        <KeyboardAvoidingView behavior='padding' style={{ marginTop: '10%' }}>
           <Text style={styles.h2}>NOMBRE DE USUARIO</Text>
           <TextInput value={username} style={styles.input} placeholder="Nombre de usuario" autoCapitalize="none" onChangeText={(text) => setUsername(text)} />
           <Text style={styles.h2}>CORREO</Text>
@@ -131,14 +131,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#a2f1f8',
-    position:'relative'
+    position: 'relative'
   },
   signInContainer: {
     position: 'absolute',
     bottom: '82%',
     width: '100%',
     paddingHorizontal: 65,
-    zIndex:2
+    zIndex: 2
   },
   whiteSheet: {
     width: '100%',
@@ -147,38 +147,38 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: '#ffffff',
     borderTopLeftRadius: 50,
-    color:'#ffffff',
-    zIndex:1
+    color: '#ffffff',
+    zIndex: 1
   },
   h1: {
     fontFamily: 'Roboto',
     color: '#000000',
-    textAlign:'right',
+    textAlign: 'right',
     fontSize: 28,
-    fontWeight:'bold',
+    fontWeight: 'bold',
   },
   signInText: {
-    fontFamily:'Roboto',
-    color:'#000000',
-    textAlign:'right',
-    fontSize:14,
+    fontFamily: 'Roboto',
+    color: '#000000',
+    textAlign: 'right',
+    fontSize: 14,
   },
   signInLink: {
-    fontWeight:'bold',
+    fontWeight: 'bold',
     color: 'black',
   },
-  h2:{
-    fontFamily:'Roboto',
-    fontWeight:'bold',
-    paddingTop:5,
+  h2: {
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    paddingTop: 5,
     marginHorizontal: 65,
-    color:'#d3d3d3',
-    textAlign:'left',
-    fontSize:12,
-    zIndex:3
+    color: '#d3d3d3',
+    textAlign: 'left',
+    fontSize: 12,
+    zIndex: 3
   },
   input: {
-    fontFamily:'Roboto',
+    fontFamily: 'Roboto',
     marginVertical: 10,
     marginHorizontal: 65,
     height: 56,
